@@ -10,17 +10,17 @@
         android:layout_height="wrap_content"
         android:text="jakies tam zadanie testowe"
         android:id="@+id/task_text"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="55dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="45dp"
         android:layout_alignParentLeft="true"
-        android:minHeight="45dp"
+        android:minHeight="35dp"
         android:gravity="center_vertical"/>
 
     <ImageButton
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:id="@+id/edit_task_button"
-        android:src="@mipmap/add_task"
+        android:src="@mipmap/edit"
         android:scaleType="fitCenter"
         android:layout_alignParentRight="true"
         android:gravity="center_vertical"/>

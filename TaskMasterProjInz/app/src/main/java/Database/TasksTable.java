@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import DataModel.Task;
-import DataModel.Date;
 
 /**
  * Created by Agnieszka on 2015-05-02.
@@ -44,6 +43,7 @@ public class TasksTable extends Table{
         listOfColumns.add(description);
         listOfColumns.add(priority);
         listOfColumns.add(date_insert);
+        listOfColumns.add(date_update);
         listOfColumns.add(date_plan_exec);
         listOfColumns.add(date_exec);
         listOfColumns.add(date_archive);
@@ -55,20 +55,21 @@ public class TasksTable extends Table{
 
     }
 
-    public long insert(Task task){
+    public long insert(Task task, SQLiteDatabase db){
         ContentValues newTask = new ContentValues();
         newTask.put(listOfColumns.get(1).name, task.getId_parent());
         newTask.put(listOfColumns.get(2).name, task.getDescription());
         newTask.put(listOfColumns.get(3).name, task.getPriority());
         newTask.put(listOfColumns.get(4).name, task.getDate_insert().getDateString());
-        newTask.put(listOfColumns.get(5).name, task.getDate_plan_exec().getDateString());
-        newTask.put(listOfColumns.get(6).name, task.getDate_exec().getDateString());
-        newTask.put(listOfColumns.get(7).name, task.getDate_archive().getDateString());
-        newTask.put(listOfColumns.get(8).name, task.getCycle_time());
-        newTask.put(listOfColumns.get(9).name, task.getId_group());
-        newTask.put(listOfColumns.get(10).name, task.getId_executor());
-        newTask.put(listOfColumns.get(11).name, task.getId_principal());
-        newTask.put(listOfColumns.get(12).name, task.getPoints());
+        newTask.put(listOfColumns.get(5).name, task.getDate_update().getDateString());
+        newTask.put(listOfColumns.get(6).name, task.getDate_plan_exec().getDateString());
+        newTask.put(listOfColumns.get(7).name, task.getDate_exec().getDateString());
+        newTask.put(listOfColumns.get(8).name, task.getDate_archive().getDateString());
+        newTask.put(listOfColumns.get(9).name, task.getCycle_time());
+        newTask.put(listOfColumns.get(10).name, task.getId_group());
+        newTask.put(listOfColumns.get(11).name, task.getId_executor());
+        newTask.put(listOfColumns.get(12).name, task.getId_principal());
+        newTask.put(listOfColumns.get(13).name, task.getPoints());
 
         return db.insert(nameOfTable, null, newTask);
         //Log.d(DEBUG_TAG, "Wstawianie nowego taska do bazy");
@@ -103,8 +104,11 @@ public class TasksTable extends Table{
         //metoda db.update zwraca liczbe zmienionych pól
     }
 
-    public Cursor getAllTasks() {
-        //System.out.println("Pobieram wszystkie taski");
+    public Cursor getAllTasks(SQLiteDatabase db) {
+        if (db.isReadOnly()){
+            System.out.println("Baza otwarta");
+        }else {System.out.println("Baza zamknieta"); }
+        System.out.println("Pobieram wszystkie taski");
         List<String> colNames = new ArrayList<String>();
         for (Column c : listOfColumns){
             colNames.add(c.name);
@@ -115,7 +119,7 @@ public class TasksTable extends Table{
         // String[] selectionArgs, String groupBy, String having, String orderBy)
     }
 
-    public Task getTaskById(long id) {
+    /*public Task getTaskById(long id) {
 
         String where = "id_task =" + id;
         Cursor cursor = db.query("tasks", columns, where, null, null, null, null);
@@ -130,7 +134,7 @@ public class TasksTable extends Table{
             task = new Task(id, description, completed);
         }
         return task;
-    }
+    }*/
 
 
 

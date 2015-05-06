@@ -1,13 +1,16 @@
 package Database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.renderscript.Type;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import DataModel.MemberOfGroup;
+import DataModel.Task;
 
 /**
  * Created by Agnieszka on 2015-05-02.
@@ -44,6 +47,7 @@ public class DbAdapter {
             //tutaj tworzone sa wszystkie tabele
             for (Table t: tables){
                 db.execSQL(t.create);
+                System.out.println("Stworzono tabele: " + t.nameOfTable);
             }
 
 
@@ -86,7 +90,7 @@ public class DbAdapter {
     }
 
     public static DbAdapter getInstance(Context context){
-        return /*(instance == null) ? (instance =*/ new DbAdapter(context)/*): instance*/;
+        return (instance == null) ? (instance = new DbAdapter(context)): instance;
     }
 
     public DbAdapter open(){
@@ -104,6 +108,24 @@ public class DbAdapter {
     }
 
     public void refresh(){
+        open();
         dbHelper.onUpgrade(db, DB_VERSION, DB_VERSION + 1);
+    }
+
+    public TasksTable getTasksTable(){
+        return tasksTable;
+    }
+
+    public Cursor getAllTask(){
+        return tasksTable.getAllTasks(db);
+        /*List<String> colNames = new ArrayList<String>();
+        for (Table.Column c : tasksTable.listOfColumns){
+            colNames.add(c.name);
+        }
+        String[] columns = colNames.toArray(new String [colNames.size()]);
+        return db.query(tasksTable.nameOfTable, columns, null, null, null, null, null);*/
+    }
+    public long insert(Task task){
+        return tasksTable.insert(task, db);
     }
 }

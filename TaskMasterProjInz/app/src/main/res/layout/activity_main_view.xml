@@ -14,8 +14,8 @@
         <ImageButton
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:id="@+id/calendar_button"
-            android:src="@mipmap/calendar"
+            android:id="@+id/edit_task_button"
+            android:src="@mipmap/edit"
             android:scaleType="fitCenter"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"/>
@@ -28,7 +28,7 @@
 
             android:id="@+id/edit_task_text"
             android:hint = "Dodaj nowe zadanie..."
-            android:layout_toRightOf="@+id/calendar_button"
+            android:layout_toRightOf="@+id/edit_task_button"
             android:layout_toLeftOf="@+id/add_task_button"
             android:layout_alignParentTop="true"
             android:minHeight="45dp" />
@@ -39,9 +39,23 @@
             android:id="@+id/add_task_button"
             android:src="@mipmap/add_task"
             android:scaleType="fitCenter"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="45dp"/>
 
-        </RelativeLayout>
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/clear_task_button"
+            android:src="@mipmap/clear_task"
+            android:scaleType="fitCenter"
+            android:layout_alignParentRight="true"
+        />
+
+    </RelativeLayout>
+
+
+
+
 
     <ExpandableListView
         android:layout_width="match_parent"
@@ -51,7 +65,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="45dp"/>
+    />
 
 
 </RelativeLayout>

@@ -9,19 +9,19 @@ public class Task {
     private int id_parent;
     private String description;
     private int priority;
-    private Date date_insert;
-    private Date date_update;
-    private Date date_plan_exec;
-    private Date date_exec;
-    private Date date_archive;
+    private MyDate date_insert;
+    private MyDate date_update;
+    private MyDate date_plan_exec;
+    private MyDate date_exec;
+    private MyDate date_archive;
     private int cycle_time;
     private int id_group;
     private int id_executor;
     private int id_principal;
     private int points;
 
-    public Task(int id, int id_parent, String description, int priority, Date date_insert, Date date_update,
-                Date date_plan_exec, Date date_exec, Date date_archive, int cycle_time, int id_group,
+    public Task(int id, int id_parent, String description, int priority, MyDate date_insert, MyDate date_update,
+                MyDate date_plan_exec, MyDate date_exec, MyDate date_archive, int cycle_time, int id_group,
                 int id_executor, int id_principal, int points){
         this.id = id;
         this.id_parent = id_parent;
@@ -39,13 +39,21 @@ public class Task {
         this.points = points;
     }
 
+    public Task(){
+        date_insert = new MyDate();
+        date_exec = new MyDate();
+        date_archive = new MyDate();
+        date_plan_exec = new MyDate();
+        date_update = new MyDate();
+    }
+
     public boolean isComplited(){
-        if (date_exec == null) return false;
+        if (date_exec.isEmpty()) return false;
         return true;
     }
 
-    public boolean isLate(Date current_date){
-        return Date.aEarlierThanB(date_plan_exec, current_date);
+    public boolean isLate(MyDate current_date){
+        return MyDate.aEarlierThanB(date_plan_exec, current_date);
     }
 
     public void setId(int id){
@@ -64,23 +72,23 @@ public class Task {
         this.priority = priority;
     }
 
-    public void setDate_insert(Date date_insert) {
+    public void setDate_insert(MyDate date_insert) {
         this.date_insert = date_insert;
     }
 
-    public void setDate_update(Date date_update) {
+    public void setDate_update(MyDate date_update) {
         this.date_update = date_update;
     }
 
-    public void setDate_plan_exec(Date date_plan_exec) {
+    public void setDate_plan_exec(MyDate date_plan_exec) {
         this.date_plan_exec = date_plan_exec;
     }
 
-    public void setDate_exec(Date date_exec) {
+    public void setDate_exec(MyDate date_exec) {
         this.date_exec = date_exec;
     }
 
-    public void setDate_archive(Date date_archive) {
+    public void setDate_archive(MyDate date_archive) {
         this.date_archive = date_archive;
     }
 
@@ -116,23 +124,23 @@ public class Task {
         return description;
     }
 
-    public Date getDate_archive() {
+    public MyDate getDate_archive() {
         return date_archive;
     }
 
-    public Date getDate_exec() {
+    public MyDate getDate_exec() {
         return date_exec;
     }
 
-    public Date getDate_insert() {
+    public MyDate getDate_insert() {
         return date_insert;
     }
 
-    public Date getDate_plan_exec() {
+    public MyDate getDate_plan_exec() {
         return date_plan_exec;
     }
 
-    public Date getDate_update() {
+    public MyDate getDate_update() {
         return date_update;
     }
 
