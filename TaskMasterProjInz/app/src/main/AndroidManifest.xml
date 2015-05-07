@@ -30,6 +30,10 @@
             android:name=".DataPicket"
             android:label="@string/title_activity_data_picket" >
         </activity>
+        <activity
+            android:name=".GetDate"
+            android:label="@string/title_activity_get_date" >
+        </activity>
     </application>
 
 </manifest>

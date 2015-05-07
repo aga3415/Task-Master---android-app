@@ -26,9 +26,12 @@ public class MyDate {
             this.month = 0;
             this.year = 0;
         }else {
-            this.year = Integer.parseInt(date.substring(0, 3));
-            this.month = Integer.parseInt(date.substring(5,6));
-            this.day = Integer.parseInt(date.substring(8,9));
+            this.year = Integer.parseInt(date.substring(0, 4));
+            //System.out.println("year "+year);
+            this.month = Integer.parseInt(date.substring(5,7));
+            //System.out.println("month "+month);
+            this.day = Integer.parseInt(date.substring(8,10));
+            //System.out.println("day "+day);
         }
 
     }
@@ -75,10 +78,16 @@ public class MyDate {
         return year;
     }
     public String getDateString(){
-        if (this.isEmpty()) {
-            return "";
-        }
-        return Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
+        //if (this.isEmpty()) {
+          //  return "";
+        //}
+        String date;
+        date = Integer.toString(year) + "-";
+        if (month < 10) date +="0";
+        date += Integer.toString(month) + "-";
+        if (day < 10) date +="0";
+        date += Integer.toString(day);
+        return date;
     }
 
 }

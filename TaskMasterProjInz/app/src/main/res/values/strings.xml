@@ -5,4 +5,5 @@
     <string name="action_settings">Ustawienia</string>
     <string name="title_activity_main_view">MainView</string>
     <string name="title_activity_data_picket">DataPicket</string>
+    <string name="title_activity_get_date">GetDate</string>
 </resources>

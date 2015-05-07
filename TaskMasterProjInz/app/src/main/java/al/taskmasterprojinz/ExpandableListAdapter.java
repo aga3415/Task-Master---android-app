@@ -6,6 +6,7 @@ package al.taskmasterprojinz;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,9 +27,10 @@ import DataModel.Task;
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
+    private Calendar calendar;
     private List<String> listDataHeader; // tytuly naglowkow
 
-    private HashMap<String, List<Task>> listDataChild;
+    public HashMap<String, List<Task>> listDataChild;
     //format: naglowek listy, wszystkie elementy listy,
 
     public ExpandableListAdapter(Context context,HashMap<String, List<Task>> listChildData) {
@@ -39,6 +41,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         listDataHeader.add("Kiedyś");
         this.listDataChild = listChildData;
 
+        if (listDataChild.isEmpty()) listDataHeader = new ArrayList<>();
 
         for (int i=0; i< listDataHeader.size(); i++){
             if(listChildData.containsKey(listDataHeader.get(i))== false || listChildData.get(listDataHeader.get(i)).size() == 0){
@@ -60,12 +63,22 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 .get(childPosititon).isComplited();
     }
 
-    public boolean isLate(int groupPosition, int childPosititon) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-DD");
-        String currentDate = dateFormat.format(new Date()).toString();
-        MyDate currentDateDateClass = new MyDate(currentDate);
+    public long getId(int groupPosition, int childPosititon) {
         return this.listDataChild.get(this.listDataHeader.get(groupPosition))
-                .get(childPosititon).isLate(currentDateDateClass);
+                .get(childPosititon).getId();
+    }
+
+    public boolean isLate(int groupPosition, int childPosititon) {
+        calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        MyDate date = new MyDate(day,month,year);
+        //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-DD");
+        //String currentDate = dateFormat.format(new Date()).toString();
+        //MyDate currentDateDateClass = new MyDate(currentDate);
+        return this.listDataChild.get(this.listDataHeader.get(groupPosition))
+                .get(childPosititon).isLate(date);
     }
 
 
@@ -90,8 +103,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.task_text);
 
         txtListChild.setText(childText);
-        
-
 
 
         //-----------------przekreslanie i odkreslanie taskow wykonanych----------------------------

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,9 +20,10 @@ public class PrepareTask {
 
     Context context;
     DbAdapter db;
+    Calendar calendar;
     static PrepareTask instance;
     TasksTable tasksTable;
-    HashMap<String, List<Task>> todayTommorowFutureList;
+    HashMap<String, List<Task>> todayTomorrowFutureList;
 
     private PrepareTask(DbAdapter db, Context context){
         this.context = context;
@@ -36,7 +38,7 @@ public class PrepareTask {
     }
 
     public HashMap<String, List<Task>> todayTommorowInFutureTaskLists(){
-            todayTommorowFutureList = new HashMap<>();
+            todayTomorrowFutureList = new HashMap<>();
 
         /*String untildate="2011-10-08";//can take any date in current format
         SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd" );
@@ -51,17 +53,28 @@ public class PrepareTask {
         MyDate currentDateDateClass = new MyDate(convertedDate);*/
 
         //Cursor todoCursor = db.getTasksTable().getAllTasks();
-        Cursor todoCursor = db.getAllTask();
+
+        Cursor todoCursor = /*db.getTasksForToday();//*/db.getAllTask();
         System.out.println("Pobieram wszystkie taski");
-        /*if(todoCursor != null) {
-            startManagingCursor(todoCursor);
-        }*/ //nie dziala bo nie ma aktywnoosci?
+
+        //Cursor today = db.getTasksForToday();
 
         String [] headers = {"Dzisiaj", "Jutro", "Kiedyś"};
-        List<Task> tasks = new ArrayList<Task>();
+        List<Task> tasksForToday = new ArrayList<Task>();
+        List<Task> taskForTomorrow = new ArrayList<Task>();
+        List<Task> restOfTask = new ArrayList<Task>();
+        calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        MyDate today = new MyDate(day,month,year);
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH) + 1;
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        MyDate tomorrow = new MyDate(day,month,year);
 
         if(todoCursor != null && todoCursor.moveToFirst()) {
-            if (todoCursor.getCount() == 0) headers[0] = "Pusto tutaj";
             do {
                 int id = todoCursor.getInt(0);
                 int id_parent = todoCursor.getInt(1);
@@ -78,15 +91,23 @@ public class PrepareTask {
                 int id_principal  = todoCursor.getInt(12);
                 int points = todoCursor.getInt(13);
                 //int points = 0;
-                tasks.add(new Task(id, id_parent, description, priority, date_insert, date_update, date_plan_exec,
-                        date_exec, date_archive, cycle_time, id_group, id_executor, id_principal, points));
+
+                Task task = new Task(id, id_parent, description, priority, date_insert, date_update, date_plan_exec,
+                        date_exec, date_archive, cycle_time, id_group, id_executor, id_principal, points);
+                if (MyDate.isEqual(date_plan_exec, today) || MyDate.aEarlierThanB(date_plan_exec,today)){
+                    tasksForToday.add(task);
+                } else if (MyDate.isEqual(date_plan_exec, tomorrow)){
+                    taskForTomorrow.add(task);
+                }else{
+                   restOfTask.add(task);
+                }
 
             } while(todoCursor.moveToNext());
-
-
         }
-        todayTommorowFutureList.put(headers[0], tasks);
+        todayTomorrowFutureList.put(headers[0], tasksForToday);
+        todayTomorrowFutureList.put(headers[1], taskForTomorrow);
+        todayTomorrowFutureList.put(headers[2], restOfTask);
 
-        return todayTommorowFutureList;
+        return todayTomorrowFutureList;
     }
 }

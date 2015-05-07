@@ -1,7 +1,9 @@
 package al.taskmasterprojinz;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -9,15 +11,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.DatePicker;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import DataModel.MyDate;
 import DataModel.Task;
 import Database.DbAdapter;
 import PreparingData.PrepareTask;
@@ -41,6 +47,17 @@ public class MainView extends ActionBarActivity {
         initUIElements();
         initList();
         newTask = new Task();
+        Intent previous = getIntent();
+        //if (previous != null){
+            String year = previous.getStringExtra("year");
+            String month = previous.getStringExtra("month");
+            String day = previous.getStringExtra("day");
+
+            if (year != null && month != null && day != null) newTask.setDate_plan_exec(new MyDate(Integer.parseInt(day), Integer.parseInt(month),Integer.parseInt(year)));
+            if (year != null) System.out.println("year "+ Integer.parseInt(year)+ "month " + Integer.parseInt(month) + "day " + Integer.parseInt(day));
+//            Toast.makeText(getApplicationContext(),"Data wykonania" + new MyDate(year+"-"+month+"-"+day).getDateString(), Toast.LENGTH_LONG).show();
+        if (year != null) Toast.makeText(getApplicationContext(),"Data wykonania" + new MyDate(Integer.parseInt(day), Integer.parseInt(month),Integer.parseInt(year)).getDateString(), Toast.LENGTH_LONG).show();
+        //}
 
 
     }
@@ -61,18 +78,21 @@ public class MainView extends ActionBarActivity {
         cancel = (ImageButton) findViewById(R.id.clear_task_button);
         task_description_text = (TextView) findViewById(R.id.edit_task_text);
         hideKeyboard();
+        initButtonsOnClickListeners();
 
 
     }
     private void initList(){
         initDate();
         expListView = (ExpandableListView) findViewById(R.id.expandableListView);
+        if (!listOfTask.isEmpty()){
+            listAdapter = new ExpandableListAdapter(this, listOfTask);
+            expListView.setAdapter(listAdapter);
+            expListView.expandGroup(0);
+        }
 
-        listAdapter = new ExpandableListAdapter(this, listOfTask);
-        expListView.setAdapter(listAdapter);
-        //expListView.expandGroup(0);
-        initButtonsOnClickListeners();
     }
+
 
     private void initButtonsOnClickListeners() {
         OnClickListener onClickListener = new OnClickListener() {
@@ -104,7 +124,21 @@ public class MainView extends ActionBarActivity {
 
     }
 
+    final DatePickerDialog.OnDateSetListener odsl = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            //newTask.setDate_exec(new MyDate(dayOfMonth,monthOfYear,year));
+        };
+    };
+
     private void editNewTask(){
+        Calendar cal=Calendar.getInstance();
+        DatePickerDialog datePickDiag= new DatePickerDialog(getApplicationContext(), odsl, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
+        //datePickDiag.show();
+
+        Context context = getApplicationContext();
+        Intent editTaskIntent = new Intent(context, GetDate.class);
+        startActivity(editTaskIntent);
 
     }
 
@@ -118,7 +152,9 @@ public class MainView extends ActionBarActivity {
             newTask.setDescription(description);
             db.insert(newTask);
             initList();
-            listAdapter.notifyDataSetChanged();
+            if (!listOfTask.isEmpty()) listAdapter.notifyDataSetChanged();
+            Toast.makeText(getApplicationContext(),"Data wykonania" + newTask.getDate_plan_exec().getDateString(), Toast.LENGTH_LONG).show();
+            newTask = new Task();
 
         }
 

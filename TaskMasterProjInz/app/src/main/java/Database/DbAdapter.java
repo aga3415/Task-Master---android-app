@@ -128,4 +128,7 @@ public class DbAdapter {
     public long insert(Task task){
         return tasksTable.insert(task, db);
     }
+    public Cursor getTasksForToday(){
+        return tasksTable.getTasksForToday(db);
+    }
 }

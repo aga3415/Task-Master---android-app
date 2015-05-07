@@ -5,8 +5,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import DataModel.MyDate;
 import DataModel.Task;
 
 /**
@@ -16,6 +18,9 @@ public class TasksTable extends Table{
 
     public Column   id, id_parent, description, priority, date_insert, date_update, date_plan_exec,
                     date_exec, date_archive, cycle_time, id_group, id_executor, id_principal, points;
+
+    Calendar calendar;
+
     //zawiera wszystkie nazwy kolumn w tabeli
     public TasksTable(SQLiteDatabase db) {
         super(db);
@@ -29,7 +34,7 @@ public class TasksTable extends Table{
         priority = new Column("PRIORITY", "INTEGER", 3);
         date_insert = new Column("DATE_INSERT", "DATE DEFAULT 'NOW'", 4);
         date_update = new Column ("DATE_UPDATE", "DATE", 5);
-        date_plan_exec = new Column("DATE_PLAN_EXEC", "DATE",6);
+        date_plan_exec = new Column("DATE_PLAN_EXEC", "TEXT",6);
         date_exec = new Column("DATE_EXEC", "DATE",7);
         date_archive = new Column("DATE_ARCHIVE", "DATE",8);
         cycle_time = new Column("CYCLE_TIME", "INTEGER", 9);
@@ -105,16 +110,12 @@ public class TasksTable extends Table{
     }
 
     public Cursor getAllTasks(SQLiteDatabase db) {
-        if (db.isReadOnly()){
-            System.out.println("Baza otwarta");
-        }else {System.out.println("Baza zamknieta"); }
-        System.out.println("Pobieram wszystkie taski");
         List<String> colNames = new ArrayList<String>();
         for (Column c : listOfColumns){
             colNames.add(c.name);
         }
         String[] columns = colNames.toArray(new String [colNames.size()]);
-        return db.query(nameOfTable, columns, null, null, null, null, null);
+        return db.query(nameOfTable, columns, null, null, null, null, "date_plan_exec");
         //public Cursor query (String table, String[] columns, String selection,
         // String[] selectionArgs, String groupBy, String having, String orderBy)
     }
@@ -136,6 +137,25 @@ public class TasksTable extends Table{
         return task;
     }*/
 
+    public Cursor getTasksForToday(SQLiteDatabase db) {
+        List<String> colNames = new ArrayList<String>();
+        calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        MyDate date = new MyDate(day,month,year);
+
+        String where = date_plan_exec.name + "=" + date.getDateString();
+        System.out.println("Dzisiejsza data" + date.getDateString());
+
+        for (Column c : listOfColumns){
+            colNames.add(c.name);
+        }
+        String[] columns = colNames.toArray(new String [colNames.size()]);
+        return db.query(nameOfTable, columns, where, null, null, null, null);
+        //public Cursor query (String table, String[] columns, String selection,
+        // String[] selectionArgs, String groupBy, String having, String orderBy)
+    }
 
 
 }
