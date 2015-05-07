@@ -87,7 +87,7 @@ public class TasksTable extends Table{
         return db.delete(nameOfTable, where, null) > 0;
     }
 
-    public boolean update(Task task) {
+    public boolean update(Task task, SQLiteDatabase db) {
         long id = task.getId();
 
         ContentValues newTask = new ContentValues();

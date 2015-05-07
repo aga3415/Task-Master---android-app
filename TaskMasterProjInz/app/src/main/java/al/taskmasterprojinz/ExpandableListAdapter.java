@@ -19,22 +19,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import DataModel.MyDate;
 import DataModel.Task;
+import Database.DbAdapter;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private Calendar calendar;
     private List<String> listDataHeader; // tytuly naglowkow
+    private ExpandableListAdapter instance;
+
+    private int year,month,day;
+    private MyDate date;
 
     public HashMap<String, List<Task>> listDataChild;
     //format: naglowek listy, wszystkie elementy listy,
 
     public ExpandableListAdapter(Context context,HashMap<String, List<Task>> listChildData) {
         this.context = context;
+        instance = this;
         this.listDataHeader = new ArrayList<>();
         listDataHeader.add("Dzisiaj");
         listDataHeader.add("Jutro");
@@ -49,6 +56,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 i = i-1;
             }
         }
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH) + 1;
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        date = new MyDate(day,month,year);
 
     }
 
@@ -56,6 +68,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public Object getChild(int groupPosition, int childPosititon) {
         return this.listDataChild.get(this.listDataHeader.get(groupPosition))
                 .get(childPosititon).getDescription();
+    }
+    public Task getTask(int groupPosition, int childPosititon) {
+        return this.listDataChild.get(this.listDataHeader.get(groupPosition))
+                .get(childPosititon);
     }
 
     public boolean isComplited(int groupPosition, int childPosititon) {
@@ -69,14 +85,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     public boolean isLate(int groupPosition, int childPosititon) {
-        calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        MyDate date = new MyDate(day,month,year);
-        //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-DD");
-        //String currentDate = dateFormat.format(new Date()).toString();
-        //MyDate currentDateDateClass = new MyDate(currentDate);
         return this.listDataChild.get(this.listDataHeader.get(groupPosition))
                 .get(childPosititon).isLate(date);
     }
@@ -88,7 +96,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition,
+    public View getChildView(final int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
         final String childText = (String) getChild(groupPosition, childPosition);
@@ -99,8 +107,31 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.task_on_list, null);
         }
 
-        TextView txtListChild = (TextView) convertView
+        final TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.task_text);
+        txtListChild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //txtListChild.setPaintFlags((txtListChild.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG));
+                Task task = getTask(groupPosition,childPosition);
+                if (task.getDate_exec().isEmpty()) {
+                    task.setDate_exec(date);
+                }else{
+                    task.setDate_exec(new MyDate());
+                }
+                DbAdapter db = DbAdapter.getInstance(context);
+                db.update(task);
+                instance.notifyDataSetChanged();
+
+            }
+        });
+        ImageButton edit = (ImageButton) convertView.findViewById(R.id.edit_task_button);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //przejscie do aktywnosci z edycja taska
+            }
+        });
 
         txtListChild.setText(childText);
 
