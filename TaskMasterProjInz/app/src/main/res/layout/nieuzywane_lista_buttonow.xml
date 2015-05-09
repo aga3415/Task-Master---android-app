@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_task_bar"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible">
+
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/cycle_button"
+            android:src="@mipmap/cycle"
+            android:scaleType="fitCenter"
+            android:layout_alignParentLeft="true" />
+
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/alarm_button"
+            android:src="@mipmap/alarm"
+            android:scaleType="fitCenter"
+            android:layout_toRightOf="@+id/cycle_button" />
+
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/group_button"
+            android:src="@mipmap/group"
+            android:scaleType="fitCenter"
+            android:layout_toRightOf="@+id/alarm_button" />
+
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/watch_button"
+            android:src="@mipmap/watch"
+            android:scaleType="fitCenter"
+            android:layout_toRightOf="@+id/group_button" />
+
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/points_button"
+            android:src="@mipmap/points"
+            android:scaleType="fitCenter"
+            android:layout_toRightOf="@+id/watch_button" />
+
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/priority_button"
+            android:src="@mipmap/priority"
+            android:scaleType="fitCenter"
+            android:layout_toRightOf="@+id/points_button" />
+
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/clear_task_button"
+            android:src="@mipmap/clear_task"
+            android:scaleType="fitCenter"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>

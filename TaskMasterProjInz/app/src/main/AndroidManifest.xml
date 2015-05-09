@@ -27,12 +27,8 @@
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
-            android:name=".DataPicket"
-            android:label="@string/title_activity_data_picket" >
-        </activity>
-        <activity
-            android:name=".GetDate"
-            android:label="@string/title_activity_get_date" >
+            android:name=".CreateTask"
+            android:label="@string/title_activity_create_task" >
         </activity>
     </application>
 

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/header_layout">
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="center"
+            android:src="@mipmap/clear_task"
+            android:text="@string/cancel_button"
+            style="@android:style/Holo.ButtonBar"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/clear_task_button"
+            android:clickable="true"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/create_task_label"
+            android:layout_alignParentTop="true"
+            android:gravity="center_horizontal"
+            android:textColor="@color/my_text"
+            android:textSize="24dp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:id="@+id/create_label"
+            />
+
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/add_task"
+            android:scaleType="center"
+            style="@android:style/Holo.ButtonBar"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            android:id="@+id/save_task_button"
+            android:clickable="true"
+            />
+
+
+    </RelativeLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header_layout"
+        android:layout_marginTop="10dp"
+        style="@android:style/TextAppearance.Holo">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/description_layout">
+
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@mipmap/edit"
+                            android:scaleType="fitCenter"
+                            android:id="@+id/description_icon"/>
+                        <EditText
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:minHeight="35dp"
+                            android:layout_marginLeft="8dp"
+                            android:hint="@string/description"
+                            android:id="@+id/description_edit"/>
+
+                    </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/description_layout"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/calendar_layout">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@mipmap/calendar"
+                        android:scaleType="fitCenter"
+                        android:id="@+id/calendar_icon"/>
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:minHeight="35dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="@string/plan_exec"
+                        android:id="@+id/plan_exec_txt"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/calendar_layout"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/executor_layout">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@mipmap/group"
+                        android:scaleType="fitCenter"
+                        android:id="@+id/executor_icon"/>
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:minHeight="35dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="@string/executor"
+                        android:id="@+id/executor_txt"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/executor_layout"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/priority_layout">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@mipmap/priority"
+                        android:scaleType="fitCenter"
+                        android:id="@+id/priority_icon"/>
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:minHeight="35dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="@string/priority"
+                        android:id="@+id/priority_txt"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/priority_layout"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/points_layout">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@mipmap/points"
+                        android:scaleType="fitCenter"
+                        android:id="@+id/points_icon"/>
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:minHeight="35dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="@string/points"
+                        android:id="@+id/points_txt"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/points_layout"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/cycle_layout">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@mipmap/cycle"
+                        android:scaleType="fitCenter"
+                        android:id="@+id/cycle_icon"/>
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:minHeight="35dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="@string/cycle"
+                        android:id="@+id/cycle_txt"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cycle_layout"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/alarm_layout">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@mipmap/alarm"
+                        android:scaleType="fitCenter"
+                        android:id="@+id/alarm_icon"/>
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:minHeight="35dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="@string/alarm"
+                        android:id="@+id/alarm_txt"/>
+
+                </LinearLayout>
+
+
+
+            </RelativeLayout>
+
+
+        </ScrollView>
+
+
+
+
+
+
+
+
+</RelativeLayout>

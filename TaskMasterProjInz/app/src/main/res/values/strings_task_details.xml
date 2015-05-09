@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_task_label">"Nowe zadanie"</string>
+    <string name="edit_task_label">Edytuj zadanie"</string>
+
+    <string name="description">"Dodaj opis zadania..."</string>
+    <string name="is_done">"Wykonane:"</string>
+    <string name="plan_exec">"Dodaj planowaną datę wykonania..."</string>
+    <string name="plan_exec_added">"Zaplanowano na: "</string>
+    <string name="executor">"Zleć zadanie..."</string>
+    <string name="principal">"Zlecone przez: "</string>
+    <string name="priority">Oznacz jako priorytet"</string>
+    <string name="points">"Ustal wartość punktową"</string>
+    <string name="cycle">"Ustaw jako cykliczne"</string>
+    <string name="alarm">"Ustaw przypomnienie"</string>
+
+    <string name="save_button">"Zapisz"</string>
+    <string name ="cancel_button">"Anuluj"</string>
+    <string name ="delete_button">"Usuń"</string>
+
+</resources>

@@ -15,14 +15,13 @@
         android:layout_alignParentTop="true"
         android:layout_marginEnd="45dp"
         android:layout_marginRight="45dp"
+        android:datePickerMode="spinner"
+        android:calendarViewShown="true"
+        android:spinnersShown="false"
+        android:layout_centerInParent="true"
+        android:scaleType="fitCenter"
     />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/save_date_button"
-        android:layout_below="@id/datePicker"
-        android:text="OK"
-    />
+
 
 
 

@@ -95,14 +95,15 @@ public class TasksTable extends Table{
         newTask.put(listOfColumns.get(2).name, task.getDescription());
         newTask.put(listOfColumns.get(3).name, task.getPriority());
         newTask.put(listOfColumns.get(4).name, task.getDate_insert().getDateString());
-        newTask.put(listOfColumns.get(5).name, task.getDate_plan_exec().getDateString());
-        newTask.put(listOfColumns.get(6).name, task.getDate_exec().getDateString());
-        newTask.put(listOfColumns.get(7).name, task.getDate_archive().getDateString());
-        newTask.put(listOfColumns.get(8).name, task.getCycle_time());
-        newTask.put(listOfColumns.get(9).name, task.getId_group());
-        newTask.put(listOfColumns.get(10).name, task.getId_executor());
-        newTask.put(listOfColumns.get(11).name, task.getId_principal());
-        newTask.put(listOfColumns.get(12).name, task.getPoints());
+        newTask.put(listOfColumns.get(5).name, task.getDate_update().getDateString());
+        newTask.put(listOfColumns.get(6).name, task.getDate_plan_exec().getDateString());
+        newTask.put(listOfColumns.get(7).name, task.getDate_exec().getDateString());
+        newTask.put(listOfColumns.get(8).name, task.getDate_archive().getDateString());
+        newTask.put(listOfColumns.get(9).name, task.getCycle_time());
+        newTask.put(listOfColumns.get(10).name, task.getId_group());
+        newTask.put(listOfColumns.get(11).name, task.getId_executor());
+        newTask.put(listOfColumns.get(12).name, task.getId_principal());
+        newTask.put(listOfColumns.get(13).name, task.getPoints());
 
         String where = listOfColumns.get(0).name + "=" + id;
         return db.update(nameOfTable, newTask, where, null) > 0;
@@ -145,14 +146,15 @@ public class TasksTable extends Table{
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         MyDate date = new MyDate(day,month,year);
 
-        String where = date_plan_exec.name + "=" + date.getDateString();
+        String where = date_plan_exec.name + " <= " + date.getDateString();
         System.out.println("Dzisiejsza data" + date.getDateString());
 
         for (Column c : listOfColumns){
             colNames.add(c.name);
         }
+        String [] selectionArgs = {date_plan_exec.name};
         String[] columns = colNames.toArray(new String [colNames.size()]);
-        return db.query(nameOfTable, columns, where, null, null, null, null);
+        return db.query(nameOfTable, columns, where, selectionArgs, null, null, null);
         //public Cursor query (String table, String[] columns, String selection,
         // String[] selectionArgs, String groupBy, String having, String orderBy)
     }

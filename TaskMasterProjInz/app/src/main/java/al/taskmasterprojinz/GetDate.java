@@ -1,5 +1,7 @@
 package al.taskmasterprojinz;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -18,25 +20,67 @@ import java.util.Date;
 import DataModel.MyDate;
 
 
-public class GetDate extends ActionBarActivity {
+public class GetDate extends Dialog {
     int year, month, day;
     Intent backToEditTask;
     Context context;
     DatePicker datePicker;
     Button saveDate;
 
+    public GetDate(Context context) {
+        super(context);
+        setContentView(R.layout.activity_get_date);
+        datePicker = (DatePicker) findViewById(R.id.datePicker);
+        Calendar calendar = Calendar.getInstance();
+        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                year = datePicker.getYear();
+                month = datePicker.getMonth()+1;
+                day = datePicker.getDayOfMonth();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+
+
+                /*context = getApplicationContext();
+                backToEditTask = new Intent(context, MainView.class);
+                backToEditTask.putExtra("year", Integer.toString(year));
+                backToEditTask.putExtra("month", Integer.toString(month));
+                backToEditTask.putExtra("day", Integer.toString(day));
+                startActivity(backToEditTask);*/
+            }
+        });
+
+    }
+
+
+    //@Override
+    /*protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_date);
         datePicker = (DatePicker) findViewById(R.id.datePicker);
-        saveDate = (Button) findViewById(R.id.save_date_button);
+        //saveDate = (Button) findViewById(R.id.save_date_button);
 
         Calendar calendar = Calendar.getInstance();
-        //datePicker.init(currentMyDate.getYear(), currentMyDate.getMonth(), currentMyDate.getDay(), onDateChangedListener);
-        MyOnDateChangedListener listener = new MyOnDateChangedListener();
-        //datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DAY_OF_MONTH), listener);
+
+        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                year = datePicker.getYear();
+                month = datePicker.getMonth()+1;
+                day = datePicker.getDayOfMonth();
+
+                Toast.makeText(getApplicationContext(),
+                        "onDateChanged", Toast.LENGTH_SHORT).show();
+
+                /*context = getApplicationContext();
+                backToEditTask = new Intent(context, MainView.class);
+                backToEditTask.putExtra("year", Integer.toString(year));
+                backToEditTask.putExtra("month", Integer.toString(month));
+                backToEditTask.putExtra("day", Integer.toString(day));
+                startActivity(backToEditTask);
+            }
+        });
+
         datePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,27 +112,7 @@ public class GetDate extends ActionBarActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_get_date, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
 
     public class MyOnDateChangedListener implements DatePicker.OnDateChangedListener {
@@ -113,6 +137,6 @@ public class GetDate extends ActionBarActivity {
         }
 
 
-    }
+    }*/
 
 }

@@ -1,5 +1,7 @@
 package DataModel;
 
+import java.util.Calendar;
+
 /**
  * Created by Agnieszka on 2015-04-28.
  */
@@ -88,6 +90,27 @@ public class MyDate {
         if (day < 10) date +="0";
         date += Integer.toString(day);
         return date;
+    }
+
+    public static MyDate getTodayDate(){
+
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        return new MyDate(day,month,year);
+    }
+
+    public static MyDate getTomorrowDate(){
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        return new MyDate(day,month,year);
     }
 
 }

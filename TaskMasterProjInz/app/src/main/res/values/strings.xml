@@ -6,4 +6,16 @@
     <string name="title_activity_main_view">MainView</string>
     <string name="title_activity_data_picket">DataPicket</string>
     <string name="title_activity_get_date">GetDate</string>
+
+    <!--Podział tasków ze względu na daty /-->
+    <string-array name="task_headers">
+        <item>"Dzisiaj"</item>
+        <item>"Jutro"</item>
+        <item>"Kiedyś"</item>
+    </string-array>
+    <string name="todays_tasks">Dzisiaj</string>
+    <string name="tomorrow_tasks">Jutro</string>
+    <string name="future_tasks">Kiedyś</string>
+    <string name="title_activity_create_task">create_task</string>
+
 </resources>

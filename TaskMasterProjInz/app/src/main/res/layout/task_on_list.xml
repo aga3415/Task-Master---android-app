@@ -15,17 +15,19 @@
         android:layout_alignParentLeft="true"
         android:minHeight="35dp"
         android:focusable="false"
-        android:gravity="center_vertical"/>
+        android:gravity="center_vertical"
+        android:textSize="14dp"/>
 
     <ImageButton
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:id="@+id/edit_task_button"
         android:src="@mipmap/edit"
         android:scaleType="fitCenter"
         android:layout_alignParentRight="true"
-        android:gravity="center_vertical"
-        android:focusable="false"/>
+        android:gravity="center"
+        android:focusable="true"
+        style="@android:style/Holo.ButtonBar" />
 
 
 </RelativeLayout>

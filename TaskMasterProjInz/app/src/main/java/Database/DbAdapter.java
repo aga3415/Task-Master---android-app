@@ -135,4 +135,8 @@ public class DbAdapter {
         return tasksTable.update(task,db);
     }
 
+    public Cursor getTasksForToday(){
+        return tasksTable.getTasksForToday(db);
+    }
+
 }
