@@ -18,16 +18,29 @@
         android:gravity="center_vertical"
         android:textSize="14dp"/>
 
+
     <ImageButton
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:id="@+id/edit_task_button"
-        android:src="@mipmap/edit"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/delete_task_button"
+        android:src="@mipmap/delete_gray"
         android:scaleType="fitCenter"
         android:layout_alignParentRight="true"
         android:gravity="center"
         android:focusable="true"
-        style="@android:style/Holo.ButtonBar" />
+        style="@android:style/Holo.ButtonBar"
+        android:layout_centerVertical="true"/>
+    <ImageButton
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/edit_task_button"
+        android:src="@mipmap/edit_gray"
+        android:scaleType="fitCenter"
+        android:layout_toLeftOf="@id/delete_task_button"
+        android:gravity="center_vertical"
+        android:focusable="true"
+        style="@android:style/Holo.ButtonBar"
+        android:layout_centerVertical="true"/>
 
 
 </RelativeLayout>

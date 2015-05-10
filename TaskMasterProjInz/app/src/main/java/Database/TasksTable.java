@@ -81,8 +81,7 @@ public class TasksTable extends Table{
 
     }
 
-    public boolean delete(Task task, SQLiteDatabase db){
-        long id = task.getId();
+    public boolean delete(long id, SQLiteDatabase db){
         String where = listOfColumns.get(0).name + "=" + id;
         return db.delete(nameOfTable, where, null) > 0;
     }

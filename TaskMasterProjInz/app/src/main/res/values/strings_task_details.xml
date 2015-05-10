@@ -19,5 +19,6 @@
     <string name ="delete_button">"Usuń"</string>
 
     <string name="add_new_task_txt">"Dodano nowe zadanie"</string>
+    <string name="edit_task_txt">"Zapisano zmiany w zadaniu"</string>
 
 </resources>

@@ -145,5 +145,8 @@ public class DbAdapter {
     public boolean deleteAllTasks(){
         return tasksTable.deleteAllTasks(db);
     }
+    public boolean deleteTask(long id){
+        return tasksTable.delete(id,db);
+    }
 
 }

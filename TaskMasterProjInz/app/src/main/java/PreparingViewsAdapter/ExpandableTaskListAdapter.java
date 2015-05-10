@@ -9,7 +9,9 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -24,7 +26,12 @@ import android.widget.TextView;
 import DataModel.MyDate;
 import DataModel.Task;
 import Database.DbAdapter;
+import PreparingData.CurrentCreatingTask;
+import al.taskmasterprojinz.EditTask;
+import al.taskmasterprojinz.MainTaskListView;
 import al.taskmasterprojinz.R;
+import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
 
@@ -55,7 +62,6 @@ public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
         // usuwanie tych nagłówków dla których nie ma tasków----------------------------------------
         if (listDataChild.isEmpty()) {
             listDataHeader = new ArrayList<>();
-            System.out.print("List data child is empty");
         }else{
             for (int i=0; i< listDataHeader.size(); i++){
                 if(listChildData.get(listDataHeader.get(i)) == null){
@@ -133,10 +139,28 @@ public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
             }
         });
         ImageButton edit = (ImageButton) convertView.findViewById(R.id.edit_task_button);
-        edit.setOnClickListener(new View.OnClickListener() {
+        ImageButton delete = (ImageButton) convertView.findViewById((R.id.delete_task_button));
+        edit.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 //przejscie do aktywnosci z edycja taska
+                Intent editTask = new Intent(context, EditTask.class);
+                CurrentCreatingTask editingTask = CurrentCreatingTask.getInstance();
+                editingTask.taskCastToCurrentCreatingTask(getTask(groupPosition,childPosition));
+                ((Activity) context).startActivity(editTask);
+            }
+        });
+
+        delete.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DbAdapter db = DbAdapter.getInstance(context);
+                Task toDelete = getTask(groupPosition,childPosition);
+                db.deleteTask(toDelete.getId());
+                //Toast.makeText(context, "Usunięto zadanie", Toast.LENGTH_LONG);
+                listDataChild.get(getGroup(groupPosition)).remove(toDelete);
+                instance.notifyDataSetChanged();
+
             }
         });
 
