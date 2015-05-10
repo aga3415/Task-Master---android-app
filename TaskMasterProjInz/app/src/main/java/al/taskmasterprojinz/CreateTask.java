@@ -2,7 +2,6 @@ package al.taskmasterprojinz;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import DataModel.MyDate;
@@ -43,7 +41,9 @@ public class CreateTask extends ContextMenu {
 
         newTask = CurrentCreatingTask.getInstance();
         res = getApplicationContext().getResources();
+        db = DbAdapter.getInstance(getApplicationContext());
         initUIElements();
+        setCurrentTxt();
     }
 
     public void initUIElements(){
@@ -78,10 +78,10 @@ public class CreateTask extends ContextMenu {
                         //zaimplementowany -
                         cancelTaskListener();
                         break;
-                    case R.id.add_task_button:
+                    case R.id.save_task_button:
                         //zaimplementowany +
                         addTaskListener();
-                        defaultListener();
+                        //defaultListener();
                         break;
                     case R.id.calendar_layout:
                         //zaimplementowany kalendarz
@@ -107,24 +107,32 @@ public class CreateTask extends ContextMenu {
 
     public void cancelTaskListener(){
         newTask.cancelTask();
+        setCurrentTxt();
+        //Toast.makeText(getApplicationContext(),
+        //        "Nacisniety -", Toast.LENGTH_SHORT).show();
         finishActivity(0);
+        //finish();
     }
 
     public void addTaskListener(){
         String desc = description.getText().toString();
+
         if(desc.equals("")){
             description.setError("Nie trzeba planować lenistwa, wpisz coś ;)");
         } else{
+            newTask.setDate_insert(MyDate.getTodayDate());
             newTask.setDescription(desc);
-            db.insert(newTask);
-            newTask.cancelTask();
-
+            newTask.saveTask(getApplicationContext());
+            //db.insert(newTask);
+            //newTask.cancelTask();
+            setCurrentTxt();
+            Toast.makeText(getApplicationContext(), res.getString(R.string.add_new_task_txt), Toast.LENGTH_SHORT).show();
         }
+        finishActivity(0);
 
     }
 
     public void calendarListener(){
-        //dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         Calendar newCalendar = Calendar.getInstance();
         datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
@@ -147,6 +155,26 @@ public class CreateTask extends ContextMenu {
         description.setError(null);
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(description.getWindowToken(), 0);
+    }
+
+    public void setCurrentTxt(){
+        if (newTask.getDate_plan_exec().getDateString() == ""){
+            txt_date_exec.setText(res.getString(R.string.plan_exec));
+        }else{
+            txt_date_exec.setText(res.getString(R.string.plan_exec_added)+ newTask.getDate_plan_exec().getDateStringDMY());
+        }
+        if (newTask.getDescription() == ""){
+            description.setText("");
+            description.setHint(res.getString(R.string.description));
+        }else{
+            description.setText(newTask.getDescription());
+        }
+
+    }
+
+    public void onBackPressed(){
+        //finishActivity(0);
+        finish();
     }
 
 

@@ -11,50 +11,48 @@
         android:layout_height="wrap_content"
         android:id="@+id/relativeLayout">
 
-        <ImageButton
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:id="@+id/edit_task_button"
-            android:src="@mipmap/edit"
-            android:scaleType="fitCenter"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            style="@android:style/Holo.ButtonBar" />
-
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:inputType="textMultiLine"
-
-            android:id="@+id/edit_task_text"
-            android:hint = "Dodaj nowe zadanie..."
-            android:layout_toRightOf="@+id/edit_task_button"
-            android:layout_toLeftOf="@+id/add_task_button"
+            android:id="@+id/my_task_label"
             android:layout_alignParentTop="true"
-            android:minHeight="45dp"
-            android:focusableInTouchMode="true" />
+            android:layout_alignParentLeft="true"
+            android:minHeight="35dp"
+            android:text="@string/my_task_label_txt"
+            android:textColor="@color/my_text"
+            android:textStyle="bold"
+            android:layout_marginLeft="15dp"
+            android:gravity="center_vertical"
+            android:textSize="24dp"
+            />
 
         <ImageButton
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:id="@+id/add_task_button"
-            android:src="@mipmap/add_task"
-            android:scaleType="fitCenter"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="45dp"
-            style="@android:style/Holo.ButtonBar" />
-
-        <ImageButton
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:id="@+id/clear_task_button"
             android:src="@mipmap/clear_task"
             android:scaleType="fitCenter"
             android:layout_alignParentRight="true"
             style="@android:style/Holo.ButtonBar" />
 
+        <ImageButton
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:id="@+id/add_task_button"
+            android:src="@mipmap/add_task"
+            android:scaleType="fitCenter"
+            android:layout_toLeftOf="@id/clear_task_button"
+            style="@android:style/Holo.ButtonBar" />
 
+        <ImageButton
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:id="@+id/calendar_button"
+            android:src="@mipmap/calendar"
+            android:scaleType="fitCenter"
+            android:layout_toLeftOf="@id/add_task_button"
+            style="@android:style/Holo.ButtonBar" />
 
 
     </RelativeLayout>

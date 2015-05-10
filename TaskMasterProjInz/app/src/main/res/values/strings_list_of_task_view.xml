@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="my_task_label_txt">"Moje zadania"</string>
+
+    <string name="remove_task_menu_header">"Wybierz: "</string>
+    <string name="remove_task_menu_item1">"Usuń wszystkie zadania"</string>
+    <string name="remove_task_menu_item2">"Usuń wykonane zadania"</string>
+    <string name="removed_completed_task">"Usunięto wykonane zadania"</string>
+    <string name="removed_all_task">"Usunięto wszystkie zadania"</string>
+
+</resources>

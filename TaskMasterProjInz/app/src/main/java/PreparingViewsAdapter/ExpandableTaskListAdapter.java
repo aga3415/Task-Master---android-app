@@ -39,13 +39,13 @@ public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
     public HashMap<String, List<Task>> listDataChild;
     //format: naglowek listy, wszystkie elementy listy,
 
-    public ExpandableTaskListAdapter(Context context, HashMap<String, List<Task>> listChildData) {
+    public ExpandableTaskListAdapter(Context context, String [] headers, HashMap<String, List<Task>> listChildData) {
         this.context = context;
         res = context.getResources();
         instance = this;
         this.listDataHeader = new ArrayList<>();
-
-        String [] headers = res.getStringArray(R.array.task_headers);
+        //listDataHeader = headers;
+        //String [] headers = res.getStringArray(R.array.task_headers);
         for (String h : headers){
             listDataHeader.add(h);
         }
@@ -53,12 +53,15 @@ public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
         this.listDataChild = listChildData;
 
         // usuwanie tych nagłówków dla których nie ma tasków----------------------------------------
-        if (listDataChild.isEmpty()) listDataHeader = new ArrayList<>();
-
-        for (int i=0; i< listDataHeader.size(); i++){
-            if(listChildData.get(listDataHeader.get(i)).size() == 0){
-                listDataHeader.remove(i);
-                i = i-1;
+        if (listDataChild.isEmpty()) {
+            listDataHeader = new ArrayList<>();
+            System.out.print("List data child is empty");
+        }else{
+            for (int i=0; i< listDataHeader.size(); i++){
+                if(listChildData.get(listDataHeader.get(i)) == null){
+                    listDataHeader.remove(i);
+                    i = i-1;
+                }
             }
         }
         //------------------------------------------------------------------------------------------
@@ -77,7 +80,7 @@ public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
                 .get(childPosititon);
     }
 
-    public boolean isComplited(int groupPosition, int childPosititon) {
+    public boolean isCompleted(int groupPosition, int childPosititon) {
         return this.listDataChild.get(this.listDataHeader.get(groupPosition))
                 .get(childPosititon).isComplited();
     }
@@ -141,7 +144,7 @@ public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
         txtListChild.setTextColor(Color.BLACK);
 
         //-----------------przekreslanie i odkreslanie taskow wykonanych----------------------------
-        if(isComplited(groupPosition,childPosition)) {
+        if(isCompleted(groupPosition, childPosition)) {
             txtListChild.setPaintFlags(txtListChild.getPaintFlags() |
                             Paint.STRIKE_THRU_TEXT_FLAG);
             txtListChild.setTextColor(Color.GRAY);
@@ -154,7 +157,7 @@ public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
         //------------------------------------------------------------------------------------------
 
         //-------czerwone spoznione taski-----------------------------------------------------------
-        if (isLate(groupPosition,childPosition) && !isComplited(groupPosition,childPosition)){
+        if (isLate(groupPosition,childPosition) && !isCompleted(groupPosition, childPosition)){
             txtListChild.setTextColor(Color.RED);
         }
         //------------------------------------------------------------------------------------------
@@ -210,6 +213,10 @@ public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    public boolean canExpandFirstGroup(){
+        return !(getChildrenCount(0) == 0);
     }
 }
 

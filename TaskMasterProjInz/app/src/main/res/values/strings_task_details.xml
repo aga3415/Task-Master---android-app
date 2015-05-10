@@ -18,4 +18,6 @@
     <string name ="cancel_button">"Anuluj"</string>
     <string name ="delete_button">"Usuń"</string>
 
+    <string name="add_new_task_txt">"Dodano nowe zadanie"</string>
+
 </resources>

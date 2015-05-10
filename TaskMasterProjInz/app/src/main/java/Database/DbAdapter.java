@@ -4,12 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.renderscript.Type;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import DataModel.MemberOfGroup;
+import DataModel.MyDate;
 import DataModel.Task;
 
 /**
@@ -135,8 +134,16 @@ public class DbAdapter {
         return tasksTable.update(task,db);
     }
 
-    public Cursor getTasksForToday(){
-        return tasksTable.getTasksForToday(db);
+    public Cursor getTasksForGivenDate(MyDate date){
+        return tasksTable.getTasksForGivenDate(db, date);
+    }
+
+    public boolean deleteCompletedTasks(){
+        return tasksTable.deleteCompletedTasks(db);
+    }
+
+    public boolean deleteAllTasks(){
+        return tasksTable.deleteAllTasks(db);
     }
 
 }

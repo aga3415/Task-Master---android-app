@@ -80,15 +80,29 @@ public class MyDate {
         return year;
     }
     public String getDateString(){
-        //if (this.isEmpty()) {
-          //  return "";
-        //}
+        if (this.isEmpty()) {
+            return "";
+        }
         String date;
         date = Integer.toString(year) + "-";
         if (month < 10) date +="0";
         date += Integer.toString(month) + "-";
         if (day < 10) date +="0";
         date += Integer.toString(day);
+        return date;
+    }
+
+    public String getDateStringDMY(){
+        if (this.isEmpty()) {
+            return "";
+        }
+        String date = "";
+        if (day < 10) date ="0";
+        date += Integer.toString(day) + "-";
+        if (month < 10) date +="0";
+        date += Integer.toString(month) + "-";
+        date += Integer.toString(year);
+
         return date;
     }
 

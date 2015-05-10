@@ -1,96 +1,93 @@
 package al.taskmasterprojinz;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.DatePicker;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
-
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-
-import DataModel.Task;
+import DataModel.MyDate;
 import Database.DbAdapter;
 import PreparingData.CurrentCreatingTask;
 import PreparingData.PrepareListOfTask;
 import PreparingViewsAdapter.ExpandableTaskListAdapter;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.Toast;
 
 
-public class MainView extends ContextMenu {
+public class MainView extends Activity {
 
     ExpandableTaskListAdapter listAdapter;
     ExpandableListView expListView;
 
-    ImageButton edit, save, cancel;
-    TextView task_description_text;
-    HashMap<String, List<Task>> listOfTask;
+    TextView header;
+    ImageButton calendar, edit, remove;
+
     PrepareListOfTask prepTask;
-    DbAdapter db;
-    CurrentCreatingTask newTask;
+    boolean standardList = true;
+    MyDate filtrDate;
+
     Intent edit_task_activity;
 
-    private DatePickerDialog toDatePickerDialog;
+    DatePickerDialog datePickerDialog;
+    CurrentCreatingTask newTask;
 
-    private SimpleDateFormat dateFormatter;
+    Resources res;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_view);
+
+        res = getApplicationContext().getResources();
         initUIElements();
         initList();
-        newTask = CurrentCreatingTask.getInstance();
-
-        //Intent previous = getIntent();
-        //if (previous != null){
-        //    String year = previous.getStringExtra("year");
-        //    String month = previous.getStringExtra("month");
-        //    String day = previous.getStringExtra("day");
-        //
-        //    if (year != null && month != null && day != null) newTask.setDate_plan_exec(new MyDate(Integer.parseInt(day), Integer.parseInt(month), Integer.parseInt(year)));
-        //    if (year != null) System.out.println("year "+ Integer.parseInt(year)+ "month " + Integer.parseInt(month) + "day " + Integer.parseInt(day));
-//            Toast.makeText(getApplicationContext(),"Data wykonania" + new MyDate(year+"-"+month+"-"+day).getDateString(), Toast.LENGTH_LONG).show();
-        //if (year != null) Toast.makeText(getApplicationContext(),"Data wykonania" + new MyDate(Integer.parseInt(day), Integer.parseInt(month),Integer.parseInt(year)).getDateString(), Toast.LENGTH_LONG).show();
-        //}
-
 
     }
 
-    private void initDate(){
-        db = DbAdapter.getInstance(this);
-        //db.refresh();
-        listOfTask = new HashMap<String, List<Task>>();
-
-        prepTask = PrepareListOfTask.getInstance(db, this);
-        listOfTask = prepTask.todayTommorowInFutureTaskLists();
-
+    protected void onResume(){
+        super.onResume();
+        initList();
+        listAdapter.notifyDataSetChanged();
     }
+
+    protected void onRestart(){
+        super.onRestart();
+        initList();
+        listAdapter.notifyDataSetChanged();
+    }
+
+
     private void initUIElements(){
 
-        edit = (ImageButton) findViewById(R.id.edit_task_button);
-        save = (ImageButton) findViewById(R.id.add_task_button);
-        cancel = (ImageButton) findViewById(R.id.clear_task_button);
-        task_description_text = (TextView) findViewById(R.id.edit_task_text);
+        header = (TextView) findViewById(R.id.my_task_label);
+        calendar = (ImageButton) findViewById(R.id.calendar_button);
+        edit = (ImageButton) findViewById(R.id.add_task_button);
+        remove = (ImageButton) findViewById(R.id.clear_task_button);
 
         initOnClickListeners();
 
 
     }
     private void initList(){
-        initDate();
+
+        prepTask = PrepareListOfTask.getInstance(this);
         expListView = (ExpandableListView) findViewById(R.id.expandableListView);
-        listAdapter = new ExpandableTaskListAdapter(this, listOfTask);
+        if (standardList){
+            listAdapter = prepTask.todayTomorrowInFutureTaskLists();
+        }else{
+            listAdapter = prepTask.tasksForGivenDate(filtrDate);
+        }
         expListView.setAdapter(listAdapter);
-        if (!prepTask.isEmptyList()){
+        if (listAdapter.canExpandFirstGroup()){
             expListView.expandGroup(0); //mozna rozwijac tylko wtedy kiedy lista nie jest pusta
         }
 
@@ -102,82 +99,112 @@ public class MainView extends ContextMenu {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.edit_task_button:
-                        editNewTask();
+                    case R.id.calendar_button:
+                        chooseDate();
                         //pierwszy przycisk po lewej
                         break;
                     case R.id.add_task_button:
-                        saveNewTask();
+                        editNewTask();
                         //znak +
                         break;
-                    case R.id.clear_task_button:
-                        cancelNewTask();
+                    //case R.id.clear_task_button:
+                    //    removeTasks();
                         //znak -
+                    //    break;
+                    case R.id.my_task_label :
+                        backToTodayTomorrowFutureView();
                         break;
-                    case R.id.edit_task_text:
-                        task_description_text.setError(null);
-                        break;
+
                 }
             }
         };
 
+        calendar.setOnClickListener(onClickListener);
         edit.setOnClickListener(onClickListener);
-        save.setOnClickListener(onClickListener);
-        cancel.setOnClickListener(onClickListener);
-        task_description_text.setOnClickListener(onClickListener);
+        //remove.setOnClickListener(onClickListener);
+        header.setOnClickListener(onClickListener);
+
+        registerForContextMenu(remove);
     }
 
-    private void cancelNewTask(){
-        task_description_text.setText("");
-        task_description_text.setError(null);
+    private void chooseDate(){
+        Calendar newCalendar = Calendar.getInstance();
+        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                MyDate plan_exec = new MyDate(dayOfMonth,monthOfYear + 1, year);
+                newTask = CurrentCreatingTask.getInstance();
+                newTask.setDate_plan_exec(plan_exec);
+                //powinno byc jeszcze wywolanie metody filtrowania zadan
+                standardList = false;
+                filtrDate = plan_exec;
+                initList();
+                listAdapter.notifyDataSetChanged();
+
+
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
 
     }
 
 
     private void editNewTask(){
-        //Calendar cal=Calendar.getInstance();
-        task_description_text.setError(null);
-
         edit_task_activity = new Intent(getApplicationContext(), CreateTask.class);
         startActivity(edit_task_activity);
-
-        /*dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-        Calendar newCalendar = Calendar.getInstance();
-        toDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                Toast.makeText(getApplicationContext(),
-                        "onDateChanged", Toast.LENGTH_SHORT).show();
-            }
-
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-        toDatePickerDialog.show();
-*/
     }
 
-    private void saveNewTask(){
-        String description = task_description_text.getText().toString();
-        if(description.equals("")){
-            task_description_text.setError("Nie trzeba planować lenistwa, wpisz coś ;)");
-        } else{
-            task_description_text.setText("");
-            hideKeyboard();
-            newTask.setDescription(description);
-            db.insert(newTask);
-            initList();
-            listAdapter.notifyDataSetChanged();
-            newTask.cancelTask();
+    private void removeTasks(){
 
+    }
+
+    private void backToTodayTomorrowFutureView(){
+        filtrDate = new MyDate();
+        standardList = true;
+        initList();
+        listAdapter.notifyDataSetChanged();
+        newTask.setDate_plan_exec(filtrDate);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        //menu.setHeaderTitle(res.getString(R.string.remove_task_menu_header));
+        menu.add(0, v.getId(), 0, res.getString(R.string.remove_task_menu_item1));
+        menu.add(0, v.getId(), 0, res.getString(R.string.remove_task_menu_item2));
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if(item.getTitle().equals(res.getString(R.string.remove_task_menu_item1))){
+            function2(item.getItemId());
         }
-
-
+        else if(item.getTitle().equals(res.getString(R.string.remove_task_menu_item2))){
+            function1(item.getItemId());
+        }
+        else {return false;}
+        return true;
+    }
+    public void function1(int id){
+        Toast.makeText(this, res.getString(R.string.removed_completed_task), Toast.LENGTH_SHORT).show();
+        DbAdapter db = DbAdapter.getInstance(getApplicationContext());
+        db.deleteCompletedTasks();
+        initList();
+        listAdapter.notifyDataSetChanged();
+    }
+    public void function2(int id){
+        Toast.makeText(this, res.getString(R.string.removed_all_task), Toast.LENGTH_SHORT).show();
+        DbAdapter db = DbAdapter.getInstance(getApplicationContext());
+        db.deleteAllTasks();
+        initList();
+        listAdapter.notifyDataSetChanged();
     }
 
-    private void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(task_description_text.getWindowToken(), 0);
-    }
+
+
+
 }
 

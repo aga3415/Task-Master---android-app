@@ -81,10 +81,20 @@ public class TasksTable extends Table{
 
     }
 
-    public boolean delete(Task task){
+    public boolean delete(Task task, SQLiteDatabase db){
         long id = task.getId();
         String where = listOfColumns.get(0).name + "=" + id;
         return db.delete(nameOfTable, where, null) > 0;
+    }
+
+    public boolean deleteCompletedTasks(SQLiteDatabase db){
+        String where = listOfColumns.get(7).name + "!=" + "''";
+        return db.delete(nameOfTable, where, null) > 0;
+    }
+
+    public boolean deleteAllTasks(SQLiteDatabase db){
+        //String where = listOfColumns.get(7).name + "!=" + "''";
+        return db.delete(nameOfTable, null, null) > 0;
     }
 
     public boolean update(Task task, SQLiteDatabase db) {
@@ -138,23 +148,17 @@ public class TasksTable extends Table{
         return task;
     }*/
 
-    public Cursor getTasksForToday(SQLiteDatabase db) {
+    public Cursor getTasksForGivenDate(SQLiteDatabase db, MyDate date) {
         List<String> colNames = new ArrayList<String>();
-        calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        MyDate date = new MyDate(day,month,year);
 
-        String where = date_plan_exec.name + " <= " + date.getDateString();
-        System.out.println("Dzisiejsza data" + date.getDateString());
+        String where = date_plan_exec.name + " = '" + date.getDateString()+"'";
 
         for (Column c : listOfColumns){
             colNames.add(c.name);
         }
-        String [] selectionArgs = {date_plan_exec.name};
+
         String[] columns = colNames.toArray(new String [colNames.size()]);
-        return db.query(nameOfTable, columns, where, selectionArgs, null, null, null);
+        return db.query(nameOfTable, columns, where, null, null, null, null);
         //public Cursor query (String table, String[] columns, String selection,
         // String[] selectionArgs, String groupBy, String having, String orderBy)
     }

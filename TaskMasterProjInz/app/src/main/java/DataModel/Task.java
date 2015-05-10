@@ -5,20 +5,20 @@ package DataModel;
  */
 public class Task {
 
-    private int id;
-    private int id_parent;
-    private String description;
-    private int priority;
-    private MyDate date_insert;
-    private MyDate date_update;
-    private MyDate date_plan_exec;
-    private MyDate date_exec;
-    private MyDate date_archive;
-    private int cycle_time;
-    private int id_group;
-    private int id_executor;
-    private int id_principal;
-    private int points;
+    protected int id;
+    protected int id_parent;
+    protected String description;
+    protected int priority;
+    protected MyDate date_insert;
+    protected MyDate date_update;
+    protected MyDate date_plan_exec;
+    protected MyDate date_exec;
+    protected MyDate date_archive;
+    protected int cycle_time;
+    protected int id_group;
+    protected int id_executor;
+    protected int id_principal;
+    protected int points;
 
     public Task(int id, int id_parent, String description, int priority, MyDate date_insert, MyDate date_update,
                 MyDate date_plan_exec, MyDate date_exec, MyDate date_archive, int cycle_time, int id_group,

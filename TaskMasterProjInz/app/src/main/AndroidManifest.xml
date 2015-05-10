@@ -28,7 +28,8 @@
         </activity>
         <activity
             android:name=".CreateTask"
-            android:label="@string/title_activity_create_task" >
+            android:label="@string/title_activity_create_task"
+            android:noHistory="true">
         </activity>
     </application>
 
