@@ -43,6 +43,10 @@ public class PrepareListOfTask {
         res = context.getResources();
         standardHeaders = res.getStringArray(R.array.task_headers);
 
+        tasksForToday = new ArrayList<Task>();
+        taskForTomorrow = new ArrayList<Task>();
+        restOfTask = new ArrayList<Task>();
+
         db.open();
     }
 
@@ -108,6 +112,9 @@ public class PrepareListOfTask {
         //-----wpisanie daty do nagłówka------------------------------------------------------------
         if (MyDate.isEqual(date, MyDate.getTodayDate())){
             oneDateHeader[0] = res.getStringArray(R.array.task_headers)[0]; //wpisz "Dzisiaj"
+
+            listForGivenDate.put(oneDateHeader[0],tasksForToday);
+            return new ExpandableTaskListAdapter(context, oneDateHeader, listForGivenDate);
         }else if (MyDate.isEqual(date, MyDate.getTomorrowDate())){
             oneDateHeader[0] = res.getStringArray(R.array.task_headers)[1]; //wpisz "Jutro"
         }else{

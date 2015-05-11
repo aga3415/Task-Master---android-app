@@ -35,6 +35,11 @@
             android:label="@string/title_activity_create_task"
             android:noHistory="true">
         </activity>
+        <activity
+            android:name=".MyTasksForDate"
+            android:label="@string/title_activity_create_task"
+            android:noHistory="true">
+        </activity>
     </application>
 
 </manifest>

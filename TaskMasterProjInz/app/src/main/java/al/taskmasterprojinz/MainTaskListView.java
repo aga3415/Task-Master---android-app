@@ -138,6 +138,8 @@ public class MainTaskListView extends Activity {
                 newTask = CurrentCreatingTask.getInstance();
                 newTask.setDate_plan_exec(plan_exec);
                 //powinno byc jeszcze wywolanie metody filtrowania zadan
+                //Intent taskListForChoosenDate = new Intent(getApplicationContext(), MyTasksForDate.class);
+                //startActivity(taskListForChoosenDate);
                 standardList = false;
                 filtrDate = plan_exec;
                 initList();
@@ -157,9 +159,7 @@ public class MainTaskListView extends Activity {
         startActivity(edit_task_activity);
     }
 
-    private void removeTasks(){
 
-    }
 
     private void backToTodayTomorrowFutureView(){
         filtrDate = new MyDate();
