@@ -1,30 +1,29 @@
 package al.taskmasterprojinz;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
-import android.widget.TabHost;
 import android.widget.TextView;
-import android.view.View.OnClickListener;
+import android.widget.Toast;
+
 import java.util.Calendar;
+
 import DataModel.MyDate;
 import Database.DbAdapter;
 import PreparingData.CurrentCreatingTask;
 import PreparingData.PrepareListOfTask;
 import PreparingViewsAdapter.ExpandableTaskListAdapter;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.Toast;
 
 
-public class MainView extends Menu {
+public class TasksListViewPattern extends Activity {
 
     ExpandableTaskListAdapter listAdapter;
     ExpandableListView expListView;
@@ -34,7 +33,6 @@ public class MainView extends Menu {
 
     PrepareListOfTask prepTask;
     boolean standardList = true;
-    MyDate filtrDate;
 
     Intent edit_task_activity;
 
@@ -43,74 +41,18 @@ public class MainView extends Menu {
 
     Resources res;
 
-    LocalActivityManager mLocalActivityManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main_view);
+        setContentView(R.layout.activity_task_llist_vie_pattern);
 
-        //res = getApplicationContext().getResources();
-        //initUIElements();
-        //initList();
+        res = getApplicationContext().getResources();
+        initUIElements();
 
-        setContentView(R.layout.activity_tab_host);
-
-        // create the TabHost that will contain the Tabs
-        TabHost tabHost = (TabHost)findViewById(android.R.id.tabhost);
-
-
-
-        TabHost.TabSpec tab1 = tabHost.newTabSpec("First Tab");
-        TabHost.TabSpec tab2 = tabHost.newTabSpec("Second Tab");
-        TabHost.TabSpec tab3 = tabHost.newTabSpec("Third tab");
-
-        // Set the Tab name and Activity
-        // that will be opened when particular Tab will be selected
-        Resources res = getResources();
-        tab1.setIndicator(res.getString(R.string.my_task_label_txt));
-        tab1.setContent(new Intent(getApplicationContext(),MyTasksView.class));
-
-        tab2.setIndicator(res.getString(R.string.sended_tasks));
-        tab2.setContent(new Intent(getApplicationContext(),MyTasksView.class));
-
-        tab3.setIndicator(res.getString(R.string.group_tasks));
-        tab3.setContent(new Intent(getApplicationContext(),MyTasksView.class));
-
-        /** Add the tabs  to the TabHost to display. */
-
-
-        mLocalActivityManager = new LocalActivityManager(this, false);
-        mLocalActivityManager.dispatchCreate(savedInstanceState);
-        tabHost.setup(mLocalActivityManager);
-
-        tabHost.addTab(tab1);
-        tabHost.addTab(tab2);
-        tabHost.addTab(tab3);
-
-        tabHost.setCurrentTab(0);
 
     }
 
-    protected void onResume(){
-        super.onResume();
-        //initList();
-        //listAdapter.notifyDataSetChanged();
 
-        mLocalActivityManager.dispatchResume();
-    }
-
-    protected void onRestart(){
-        super.onRestart();
-
-        //initList();
-        //listAdapter.notifyDataSetChanged();
-    }
-
-    protected void onPause(){
-        super.onPause();
-        mLocalActivityManager.dispatchPause(isFinishing());
-    }
 
 
     private void initUIElements(){
@@ -129,13 +71,10 @@ public class MainView extends Menu {
 
         prepTask = PrepareListOfTask.getInstance(this);
         expListView = (ExpandableListView) findViewById(R.id.expandableListView);
-        if (standardList){
-            listAdapter = prepTask.todayTomorrowInFutureTaskLists();
-        }else{
 
+        newTask = CurrentCreatingTask.getInstance();
+        listAdapter = prepTask.tasksForGivenDate(newTask.getDate_plan_exec());
 
-            listAdapter = prepTask.tasksForGivenDate(filtrDate);
-        }
         expListView.setAdapter(listAdapter);
         if (listAdapter.canExpandFirstGroup()){
             expListView.expandGroup(0); //mozna rozwijac tylko wtedy kiedy lista nie jest pusta
@@ -145,7 +84,7 @@ public class MainView extends Menu {
 
 
     private void initOnClickListeners() {
-        OnClickListener onClickListener = new OnClickListener() {
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
@@ -159,13 +98,13 @@ public class MainView extends Menu {
                         break;
                     //case R.id.clear_task_button:
                     //    removeTasks();
-                        //znak -
+                    //znak -
                     //    break;
                     case R.id.my_task_label :
                         backToTodayTomorrowFutureView();
                         break;
                     case R.id.menu_button :
-                        MainView.this.openOptionsMenu();
+                        TasksListViewPattern.this.openOptionsMenu();
                         break;
 
                 }
@@ -197,7 +136,7 @@ public class MainView extends Menu {
                 //standardList = false;
                 //filtrDate = plan_exec;
                 //initList();
-                //listAdapter.notifyDataSetChanged();
+                listAdapter.notifyDataSetChanged();
 
 
             }
@@ -216,7 +155,7 @@ public class MainView extends Menu {
 
 
     private void backToTodayTomorrowFutureView(){
-        filtrDate = new MyDate();
+        MyDate filtrDate = new MyDate();
         standardList = true;
         initList();
         listAdapter.notifyDataSetChanged();
@@ -225,7 +164,7 @@ public class MainView extends Menu {
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(ContextMenu menu, View v,ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         //menu.setHeaderTitle(res.getString(R.string.remove_task_menu_header));
         menu.add(0, v.getId(), 0, res.getString(R.string.remove_task_menu_item1));
@@ -260,6 +199,4 @@ public class MainView extends Menu {
 
 
 
-
 }
-

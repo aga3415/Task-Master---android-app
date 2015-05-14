@@ -1,0 +1,39 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="al.taskmasterprojinz.Menu">
+
+    <item android:id="@+id/my_tasks" android:title="@string/my_tasks"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:icon="@mipmap/logo"/>
+    <item android:id="@+id/sended_tasks" android:title="@string/sended_tasks"
+        android:orderInCategory="200" app:showAsAction="never" />
+    <item android:id="@+id/group_tasks" android:title="@string/group_tasks"
+        android:orderInCategory="300" app:showAsAction="never" />
+    <item android:id="@+id/calendar"
+        android:title="Kalendarz"
+        android:icon="@mipmap/calendar"
+        android:orderInCategory="400"
+        app:showAsAction="ifRoom"/>
+    <item android:id="@+id/add_task"
+        android:icon="@mipmap/add_task"
+        android:title="Dodaj zadanie"
+        android:orderInCategory="500"
+        app:showAsAction="ifRoom"/>
+    <item android:id="@+id/remove_task"
+        android:icon="@mipmap/delete"
+        android:title="Usun zadanie"
+        android:orderInCategory="600"
+        app:showAsAction="ifRoom"/>
+    <item android:id="@+id/synchronize" android:title="@string/synchronize"
+        android:orderInCategory="700"
+        android:icon="@mipmap/cycle"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/settings" android:title="@string/settings"
+        android:orderInCategory="800" app:showAsAction="never" />
+    <item android:id="@+id/help" android:title="@string/help"
+        android:orderInCategory="900" app:showAsAction="never" />
+</menu>
+
+

@@ -21,7 +21,7 @@ import Database.DbAdapter;
 import PreparingData.CurrentCreatingTask;
 
 
-public class CreateTask extends ContextMenu {
+public class CreateTask extends Menu {
 
     ImageButton cancel, save;
     EditText description;

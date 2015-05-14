@@ -3,16 +3,16 @@ package al.taskmasterprojinz;
 import android.os.Bundle;
 import android.widget.ExpandableListView;
 
-import PreparingData.CurrentCreatingTask;
 import PreparingData.PrepareListOfTask;
 
 /**
- * Created by Agnieszka on 2015-05-11.
+ * Created by Agnieszka on 2015-05-15.
  */
-public class MyTasksForDate extends TasksListViewPattern {
+public class MyTasksView extends TasksListViewPattern {
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
         initList();
         listAdapter.notifyDataSetChanged();
     }
@@ -33,9 +33,7 @@ public class MyTasksForDate extends TasksListViewPattern {
 
         prepTask = PrepareListOfTask.getInstance(this);
         expListView = (ExpandableListView) findViewById(R.id.expandableListView);
-
-        newTask = CurrentCreatingTask.getInstance();
-        listAdapter = prepTask.tasksForGivenDate(newTask.getDate_plan_exec());
+        listAdapter = prepTask.todayTomorrowInFutureTaskLists();
 
         expListView.setAdapter(listAdapter);
         if (listAdapter.canExpandFirstGroup()){
@@ -43,17 +41,4 @@ public class MyTasksForDate extends TasksListViewPattern {
         }
 
     }
-
-    private void backToTodayTomorrowFutureView(){
-        finish();
-        onBackPressed();
-        //filtrDate = new MyDate();
-        //standardList = true;
-        //initList();
-        //listAdapter.notifyDataSetChanged();
-        //newTask = CurrentCreatingTask.getInstance();
-        //newTask.setDate_plan_exec(filtrDate);
-    }
-
-
 }

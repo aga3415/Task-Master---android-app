@@ -28,10 +28,8 @@ import DataModel.Task;
 import Database.DbAdapter;
 import PreparingData.CurrentCreatingTask;
 import al.taskmasterprojinz.EditTask;
-import al.taskmasterprojinz.MainTaskListView;
 import al.taskmasterprojinz.R;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
 

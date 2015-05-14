@@ -9,14 +9,16 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainTaskListView"
+            android:name=".MainView"
+            android:icon="@mipmap/logo"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -28,17 +30,25 @@
         <activity
             android:name=".CreateTask"
             android:label="@string/title_activity_create_task"
-            android:noHistory="true">
+            android:noHistory="true" >
         </activity>
         <activity
             android:name=".EditTask"
             android:label="@string/title_activity_create_task"
-            android:noHistory="true">
+            android:noHistory="true" >
         </activity>
         <activity
             android:name=".MyTasksForDate"
             android:label="@string/title_activity_create_task"
-            android:noHistory="true">
+            android:noHistory="true" >
+        </activity>
+        <activity
+            android:name=".TasksListViewPattern"
+            android:label="@string/title_activity_task_llist_vie_pattern" >
+        </activity>
+        <activity
+            android:name=".MyTasksView"
+            android:label="@string/title_activity_tab_host" >
         </activity>
     </application>
 
