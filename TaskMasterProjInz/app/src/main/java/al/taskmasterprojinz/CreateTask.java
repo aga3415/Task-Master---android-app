@@ -1,5 +1,6 @@
 package al.taskmasterprojinz;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.res.Resources;
@@ -21,7 +22,7 @@ import Database.DbAdapter;
 import PreparingData.CurrentCreatingTask;
 
 
-public class CreateTask extends Menu {
+public class CreateTask extends Activity {
 
     ImageButton cancel, save;
     EditText description;

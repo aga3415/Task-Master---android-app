@@ -57,13 +57,13 @@ public class TasksListViewPattern extends Activity {
 
     private void initUIElements(){
 
-        header = (TextView) findViewById(R.id.my_task_label);
-        calendar = (ImageButton) findViewById(R.id.calendar_button);
-        edit = (ImageButton) findViewById(R.id.add_task_button);
-        remove = (ImageButton) findViewById(R.id.clear_task_button);
-        menu = (ImageButton) findViewById(R.id.menu_button);
+        //header = (TextView) findViewById(R.id.my_task_label);
+        //calendar = (ImageButton) findViewById(R.id.calendar_button);
+        //edit = (ImageButton) findViewById(R.id.add_task_button);
+        //remove = (ImageButton) findViewById(R.id.clear_task_button);
+        //menu = (ImageButton) findViewById(R.id.menu_button);
 
-        initOnClickListeners();
+        //initOnClickListeners();
 
 
     }
@@ -83,7 +83,7 @@ public class TasksListViewPattern extends Activity {
     }
 
 
-    private void initOnClickListeners() {
+    /*private void initOnClickListeners() {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,5 +198,5 @@ public class TasksListViewPattern extends Activity {
     }
 
 
-
+*/
 }

@@ -11,9 +11,7 @@
         android:layout_height="fill_parent"
         android:layout_width="fill_parent">
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+
                     <TabWidget
                         android:id="@android:id/tabs"
                         android:layout_height="wrap_content"
@@ -23,18 +21,17 @@
 
                     <FrameLayout
                         android:id="@android:id/tabcontent"
-                        android:layout_height="fill_parent"
+                        android:layout_height="wrap_content"
                         android:layout_width="fill_parent"
-                        android:layout_below="@android:id/tabs">
+                        android:layout_below="@android:id/tabs"
+                        android:layout_marginBottom="45dp">
                     </FrameLayout>
 
-
-            </RelativeLayout>
 
 
         <TableLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:id="@+id/table_row_buttons"
             android:stretchColumns="*"
             android:layout_alignParentBottom="true">

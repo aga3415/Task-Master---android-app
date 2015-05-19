@@ -37,18 +37,7 @@ public class Menu extends ActionBarActivity {
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.my_tasks :
-                //przejscie do aktywnosci moje zadania
-                myTasks();
-                break;
-            case R.id.sended_tasks :
-                //przejscie do aktywnosci ze zleconymi zadaniami
-                sendedTasks();
-                break;
-            case R.id.group_tasks :
-                //przejscie do aktywnosci z grupowymi zadaniami
-                groupTasks();
-                break;
+
             case R.id.synchronize :
                 //synchronizacja danych
                 synchronize();
@@ -67,16 +56,7 @@ public class Menu extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void myTasks(){
-        Intent myTasks = new Intent(getApplicationContext(), MainView.class);
-        startActivity(myTasks);
-    }
-    public void sendedTasks(){
 
-    }
-    public void groupTasks(){
-
-    }
     public void synchronize(){
 
     }

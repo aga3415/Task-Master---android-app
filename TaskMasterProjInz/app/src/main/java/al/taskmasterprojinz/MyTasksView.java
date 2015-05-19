@@ -10,9 +10,12 @@ import PreparingData.PrepareListOfTask;
  */
 public class MyTasksView extends TasksListViewPattern {
 
+    static MyTasksView instance;
+
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
+        instance = this;
         initList();
         listAdapter.notifyDataSetChanged();
     }
@@ -29,6 +32,10 @@ public class MyTasksView extends TasksListViewPattern {
         listAdapter.notifyDataSetChanged();
     }
 
+    public static MyTasksView getInstance(){
+        return instance;
+    }
+
     private void initList(){
 
         prepTask = PrepareListOfTask.getInstance(this);
@@ -41,4 +48,12 @@ public class MyTasksView extends TasksListViewPattern {
         }
 
     }
+    public static void refresh() {
+        if (instance != null) {
+            instance.initList();
+            instance.listAdapter.notifyDataSetChanged();
+        }
+
+    }
+
 }

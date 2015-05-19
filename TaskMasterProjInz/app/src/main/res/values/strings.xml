@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Task Master ver. beta</string>
+    <string name="app_name">Lista zadań</string>
 
-    <string name="hello_world">Hello world!</string>
+
     <string name="action_settings">Ustawienia</string>
     <string name="title_activity_main_view">MainView</string>
     <string name="title_activity_data_picket">DataPicket</string>

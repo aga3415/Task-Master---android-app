@@ -11,10 +11,13 @@ import PreparingData.PrepareListOfTask;
  */
 public class MyTasksForDate extends TasksListViewPattern {
 
+    static MyTasksForDate instance;
+
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         initList();
         listAdapter.notifyDataSetChanged();
+        instance = this;
     }
 
     protected void onResume(){
@@ -53,6 +56,13 @@ public class MyTasksForDate extends TasksListViewPattern {
         //listAdapter.notifyDataSetChanged();
         //newTask = CurrentCreatingTask.getInstance();
         //newTask.setDate_plan_exec(filtrDate);
+    }
+    public static void refresh(){
+        if (instance != null){
+            instance.initList();
+            instance.listAdapter.notifyDataSetChanged();
+        }
+
     }
 
 

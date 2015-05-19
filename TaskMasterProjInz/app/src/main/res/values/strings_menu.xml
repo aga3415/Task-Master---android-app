@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="my_tasks">"Moje zadania"</string>
-    <string name="sended_tasks">"Zadania zlecone"</string>
-    <string name="group_tasks">"Zadania grupowe"</string>
+    <string name="my_tasks">"Moje"</string>
+    <string name="sended_tasks">"Zlecone"</string>
+    <string name="group_tasks">"Grupowe"</string>
     <string name="groups">"Grupy"</string>
     <string name="synchronize">"Synchronizacja"</string>
     <string name="settings">"Ustawienia"</string>
