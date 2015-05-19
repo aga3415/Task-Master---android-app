@@ -149,4 +149,8 @@ public class DbAdapter {
         return tasksTable.delete(id,db);
     }
 
+    public boolean deleteMemberOfGroup(String groupName, long userId){
+        return true;
+    }
+
 }

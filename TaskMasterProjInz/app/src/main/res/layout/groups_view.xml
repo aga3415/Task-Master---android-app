@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/expandableListView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="45dp"
+        />
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:id="@+id/table_row_buttons"
+        android:stretchColumns="*"
+        android:layout_alignParentBottom="true">
+
+        <TableRow>
+            <ImageButton
+                android:id="@+id/add_groups_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/add_task"
+                style="@android:style/Holo.ButtonBar"/>
+
+            <ImageButton
+                android:id="@+id/add_memeber_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/calendar"
+                style="@android:style/Holo.ButtonBar"/>
+
+            <ImageButton
+                android:id="@+id/delete_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/delete"
+                style="@android:style/Holo.ButtonBar"/>
+
+        </TableRow>
+
+
+    </TableLayout>
+
+</RelativeLayout>

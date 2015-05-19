@@ -8,10 +8,14 @@
         android:orderInCategory="100"
         android:icon="@mipmap/cycle"
         app:showAsAction="ifRoom" />
-    <item android:id="@+id/settings" android:title="@string/settings"
+    <item android:id="@+id/groups" android:title="@string/groups"
         android:orderInCategory="200" app:showAsAction="never" />
-    <item android:id="@+id/help" android:title="@string/help"
+    <item android:id="@+id/settings" android:title="@string/settings"
         android:orderInCategory="300" app:showAsAction="never" />
+    <item android:id="@+id/help" android:title="@string/help"
+        android:orderInCategory="400" app:showAsAction="never" />
+    <item android:id="@+id/log_out" android:title="@string/logout"
+        android:orderInCategory="500" app:showAsAction="never" />
 </menu>
 
 

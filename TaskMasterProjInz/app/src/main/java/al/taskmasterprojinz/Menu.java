@@ -42,6 +42,9 @@ public class Menu extends ActionBarActivity {
                 //synchronizacja danych
                 synchronize();
                 break;
+            case R.id.groups :
+                goToGroupsActivity();
+                break;
             case R.id.settings :
                 //przejscie do aktywnosci z ustawieniami
                 settings();
@@ -50,10 +53,24 @@ public class Menu extends ActionBarActivity {
                 //przejscie do aktywnosci z pomocą
                 help();
                 break;
+            case R.id.log_out :
+                logOut();
+                break;
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logOut() {
+        Intent signIn = new Intent(getApplicationContext(), LoginActivity.class);
+        finishActivity(0);
+        startActivity(signIn);
+    }
+
+    private void goToGroupsActivity() {
+        Intent groupsActivity = new Intent(getApplicationContext(), GroupsView.class);
+        startActivity(groupsActivity);
     }
 
 
@@ -64,7 +81,8 @@ public class Menu extends ActionBarActivity {
 
     }
     public void help(){
-
+        Intent help = new Intent (getApplicationContext(), HelpView.class);
+        startActivity(help);
     }
 
 

@@ -26,7 +26,8 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:windowSoftInputMode="adjustResize|stateVisible"
+            android:noHistory="true">
         </activity>
         <activity
             android:name=".CreateTask"
@@ -54,6 +55,14 @@
         <activity
             android:name=".TabHostActivity"
             android:label="@string/title_activity_tab_host" >
+        </activity>
+        <activity
+            android:name=".GroupsView"
+            android:label="@string/title_activity_groups_view" >
+        </activity>
+        <activity
+            android:name=".HelpView"
+            android:noHistory="true" >
         </activity>
     </application>
 

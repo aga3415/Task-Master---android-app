@@ -51,17 +51,20 @@ public class MainView extends Menu {
         super.onCreate(savedInstanceState);
 
         /* otwieranie przegladarki z adresem strony */
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
-        startActivity(browserIntent);
+        //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+        //startActivity(browserIntent);
         //------------------------------------------------------------------------------------------
+
+        //otwieranie aktywnosci logowania
+        Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(login);
 
         /* otwieranie aktywnosci z lista zadan */
         Intent tabHostActivity = new Intent(getApplicationContext(), TabHostActivity.class);
         startActivity(tabHostActivity);
         //------------------------------------------------------------------------------------------
 
-        Intent login = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(login);
+
 
     }
 
