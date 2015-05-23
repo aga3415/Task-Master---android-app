@@ -25,5 +25,8 @@
     <string name="title_activity_task_llist_vie_pattern">TaskLListViePattern</string>
     <string name="title_activity_tab_host">TabHost</string>
     <string name="title_activity_groups_view">Grupy</string>
+    <string name="title_activity_add_group">AddGroup</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>

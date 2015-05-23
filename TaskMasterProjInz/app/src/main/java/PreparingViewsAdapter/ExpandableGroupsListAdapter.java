@@ -58,17 +58,7 @@ public class ExpandableGroupsListAdapter extends BaseExpandableListAdapter {
 
         this.listDataChild = listChildData;
 
-        // usuwanie tych nagłówków dla których nie ma tasków----------------------------------------
-        /*if (listDataChild.isEmpty()) {
-            listDataHeader = new ArrayList<>();
-        }else{
-            for (int i=0; i< listDataHeader.size(); i++){
-                if(listChildData.get(listDataHeader.get(i)) == null){
-                    listDataHeader.remove(i);
-                    i = i-1;
-                }
-            }
-        }*/
+
 
     }
 
@@ -82,10 +72,7 @@ public class ExpandableGroupsListAdapter extends BaseExpandableListAdapter {
                 .get(childPosititon);
     }
 
-    /*public boolean isAccepted(int groupPosition, int childPosititon) {
-        return this.listDataChild.get(this.listDataHeader.get(groupPosition))
-                .get(childPosititon).isAccepted();
-    }*/
+
 
     public long getId(int groupPosition, int childPosititon) {
         return this.listDataChild.get(this.listDataHeader.get(groupPosition))

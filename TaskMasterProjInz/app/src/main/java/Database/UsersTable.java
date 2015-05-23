@@ -1,6 +1,9 @@
 package Database;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+
+import DataModel.User;
 
 /**
  * Created by Agnieszka on 2015-05-02.
@@ -36,6 +39,22 @@ public class UsersTable extends Table {
         listOfColumns.add(verify_email);
         listOfColumns.add(session_id);
 
+    }
+
+    public void insert(SQLiteDatabase db, User user){
+        ContentValues newUser = new ContentValues();
+        newUser.put(listOfColumns.get(1).name, user.getLogin());
+        newUser.put(listOfColumns.get(2).name, user.getPassword());
+        newUser.put(listOfColumns.get(3).name, user.getEmail());
+        newUser.put(listOfColumns.get(4).name, user.getVerify_mail());
+        newUser.put(listOfColumns.get(5).name, user.getSession_id());
+        db.insert(nameOfTable, null, newUser);
+
+    }
+
+    public void delete(SQLiteDatabase db, User user){
+        String where = listOfColumns.get(0).name + "=" + user.getId();
+        db.delete(nameOfTable, where, null);
     }
 
 

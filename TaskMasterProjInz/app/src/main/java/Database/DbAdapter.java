@@ -8,8 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import DataModel.Group;
+import DataModel.MemberOfGroup;
 import DataModel.MyDate;
 import DataModel.Task;
+import DataModel.User;
 
 /**
  * Created by Agnieszka on 2015-05-02.
@@ -150,7 +153,42 @@ public class DbAdapter {
     }
 
     public boolean deleteMemberOfGroup(String groupName, long userId){
-        return true;
+        return membersOfGroupTable.delete(db, groupName,userId);
     }
+
+    public Cursor getAllMembers(){
+        return membersOfGroupTable.getAllMembers(db);
+    }
+
+    public Cursor getMembers(){
+        String statement = "SELECT Groups.name, Users.login " +
+                        "FROM MembersOfGroup" +
+                        "LEFT JOIN Groups ON MembersOfGroup.id_group = Groups.id" +
+                        "LEFT JOIN Users ON MembersOfGroups.id_user = Users.id";
+
+        return db.rawQuery(statement, null);
+    }
+
+    public void insertGroup(String name){
+        groupsTable.insert(db, name);
+    }
+
+    public void deleteGroup(Group group){
+        groupsTable.delete(db, group);
+    }
+
+    public void insertUser(User user){
+        usersTable.insert(db,user);
+    }
+    public void deleteUser(User user){
+        usersTable.delete(db, user);
+    }
+
+    public void insertMemberOfGroup(MemberOfGroup member){
+        membersOfGroupTable.insert(db, member);
+    }
+
+
+
 
 }

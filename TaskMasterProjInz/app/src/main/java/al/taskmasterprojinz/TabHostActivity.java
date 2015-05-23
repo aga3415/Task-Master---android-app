@@ -179,7 +179,9 @@ public class TabHostActivity extends al.taskmasterprojinz.Menu {
 
     private void editNewTask(){
         Intent edit_task_activity = new Intent(getApplicationContext(), CreateTask.class);
-        startActivity(edit_task_activity);
+        //startActivity(edit_task_activity);
+        int result = 0;
+        startActivityForResult(edit_task_activity, result, Bundle.EMPTY);
     }
 
     @Override

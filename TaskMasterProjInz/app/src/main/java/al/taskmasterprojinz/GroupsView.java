@@ -1,6 +1,8 @@
 package al.taskmasterprojinz;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 
@@ -28,6 +30,8 @@ public class GroupsView extends Menu {
 
         initList();
         listAdapter.notifyDataSetChanged();
+        initUIElements();
+        initOnClickListeners();
     }
 
     protected void onResume(){
@@ -66,11 +70,42 @@ public class GroupsView extends Menu {
         }*/
 
     }
+
+    private void initOnClickListeners() {
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.add_groups_button:
+                        addGroup();
+                        //pierwszy przycisk po lewej
+                        break;
+                    case R.id.add_memeber_button:
+                        addUserToGroup();
+                        break;
+                }
+            }
+        };
+
+        addGroup.setOnClickListener(onClickListener);
+        addMember.setOnClickListener(onClickListener);
+
+        //registerForContextMenu(removeTask);
+    }
     public static void refresh() {
         if (instance != null) {
             instance.initList();
             instance.listAdapter.notifyDataSetChanged();
         }
+
+    }
+
+    public void addGroup(){
+        Intent addGroup = new Intent(getApplicationContext(), AddGroup.class);
+        startActivity(addGroup);
+    }
+
+    public void addUserToGroup(){
 
     }
 }

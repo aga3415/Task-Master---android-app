@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="add_group_label">"Utwórz grupę"</string>
+    <string name="add_group_hint">"Wpisz nazwę grupy"</string>
+    <string name="add_users_text">"Dodaj użytkownika</string>
+</resources>

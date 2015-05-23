@@ -46,7 +46,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/version"
-        android:layout_marginTop="25dp">
+        android:layout_marginTop="25dp"
+        android:id="@+id/scroller">
 
         <EditText
             android:layout_width="match_parent"
@@ -59,9 +60,10 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_below="@id/scroller"
         android:text="@string/send"
         android:gravity="center"
         android:id="@+id/send"/>

@@ -1,7 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="al.taskmasterprojinz.Menu">
+    xmlns:tools="http://schemas.android.com/tools" tools:context="al.taskmasterprojinz.AddGroup">
 
 
     <item android:id="@+id/synchronize" android:title="@string/synchronize"
@@ -17,5 +16,3 @@
     <item android:id="@+id/log_out" android:title="@string/logout"
         android:orderInCategory="500" app:showAsAction="never" />
 </menu>
-
-

@@ -112,6 +112,8 @@ public class CreateTask extends Activity {
         //Toast.makeText(getApplicationContext(),
         //        "Nacisniety -", Toast.LENGTH_SHORT).show();
         finishActivity(0);
+        onBackPressed();
+        onBackPressed();
         //finish();
     }
 
@@ -173,10 +175,10 @@ public class CreateTask extends Activity {
 
     }
 
-    public void onBackPressed(){
+    /*public void onBackPressed(){
         //finishActivity(0);
         finish();
-    }
+    }*/
 
 
 

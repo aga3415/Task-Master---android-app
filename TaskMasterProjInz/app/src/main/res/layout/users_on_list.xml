@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/task_on_list_layout">
+    android:id="@+id/users_on_list_layout">
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="jakies tam zadanie testowe"
-        android:id="@+id/task_text"
+        android:text="nazwa usera"
+        android:id="@+id/user_text"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="45dp"
         android:layout_alignParentLeft="true"
@@ -22,7 +22,7 @@
     <ImageButton
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:id="@+id/delete_task_button"
+        android:id="@+id/delete_user_button"
         android:src="@mipmap/delete_gray"
         android:scaleType="fitCenter"
         android:layout_alignParentRight="true"
@@ -40,7 +40,8 @@
         android:gravity="center_vertical"
         android:focusable="true"
         style="@android:style/Holo.ButtonBar"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:visibility="gone"/>
 
 
 </RelativeLayout>
