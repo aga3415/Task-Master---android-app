@@ -39,8 +39,9 @@ public class TabHostActivity extends al.taskmasterprojinz.Menu {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab_host);
-        //setTitle("TabHost activity");
+
         res = getResources();
+        setTitle(res.getString(R.string.task_list_label));
         initUIElements();
 
         // create the TabHost that will contain the Tabs
@@ -77,7 +78,7 @@ public class TabHostActivity extends al.taskmasterprojinz.Menu {
 
     private void initStandardTab(){
 
-        tab1.setIndicator(res.getString(R.string.my_task_label_txt));
+        tab1.setIndicator(res.getString(R.string.my_tasks));
         tab1.setContent(new Intent(getApplicationContext(),MyTasksView.class));
 
         tab2.setIndicator(res.getString(R.string.sended_tasks));
@@ -99,7 +100,7 @@ public class TabHostActivity extends al.taskmasterprojinz.Menu {
 
     private void initNewTab(){
         Resources res = getResources();
-        tab1.setIndicator(res.getString(R.string.my_task_label_txt));
+        tab1.setIndicator(res.getString(R.string.my_tasks));
         tab1.setContent(new Intent(getApplicationContext(),MyTasksForDate.class));
 
         tab2.setIndicator(res.getString(R.string.sended_tasks));

@@ -3,6 +3,7 @@ package al.taskmasterprojinz;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -89,6 +90,10 @@ public class CreateTask extends Activity {
                         calendarListener();
                         defaultListener();
                         break;
+                    case R.id.executor_layout:
+                        chooseExecutor();
+                        defaultListener();
+                        break;
                     default :
                         //zaimplementowane domyślnie
                         defaultListener();
@@ -99,11 +104,12 @@ public class CreateTask extends Activity {
         cancel.setOnClickListener(onClickListener);
         save.setOnClickListener(onClickListener);
         v_date_exec.setOnClickListener(onClickListener);
+        v_executor.setOnClickListener(onClickListener);
         v_points.setOnClickListener(onClickListener);
         v_priority.setOnClickListener(onClickListener);
         v_cycle.setOnClickListener(onClickListener);
         v_alarm.setOnClickListener(onClickListener);
-        v_executor.setOnClickListener(onClickListener);
+
     }
 
     public void cancelTaskListener(){
@@ -172,7 +178,17 @@ public class CreateTask extends Activity {
         }else{
             description.setText(newTask.getDescription());
         }
+        if (newTask.getId_group() > 0 ){
 
+        }else if (newTask.getId_executor() != null) {
+            txt_executor.setText(newTask.getId_executor());
+        }
+
+    }
+
+    public void chooseExecutor(){
+        Intent chooseExecutor = new Intent(getApplicationContext(), ChooseTaskExecutor.class);
+        startActivity(chooseExecutor);
     }
 
     /*public void onBackPressed(){

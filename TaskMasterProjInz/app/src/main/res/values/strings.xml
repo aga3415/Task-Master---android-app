@@ -28,5 +28,6 @@
     <string name="title_activity_add_group">AddGroup</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_choose_task_executor">ChooseTaskExecutor</string>
 
 </resources>

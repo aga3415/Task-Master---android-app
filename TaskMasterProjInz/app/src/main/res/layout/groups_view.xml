@@ -17,7 +17,8 @@
         android:layout_height="45dp"
         android:id="@+id/table_row_buttons"
         android:stretchColumns="*"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="@color/bardzo_jasniutki">
 
         <TableRow>
             <ImageButton
@@ -25,21 +26,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/add_group"
-                style="@android:style/Holo.ButtonBar"/>
+                style="@android:style/Holo.ButtonBar"
+                android:layout_marginTop="10dp"/>
 
             <ImageButton
                 android:id="@+id/add_memeber_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/add_user"
-                style="@android:style/Holo.ButtonBar"/>
+                style="@android:style/Holo.ButtonBar"
+                android:layout_marginTop="10dp"/>
 
             <ImageButton
                 android:id="@+id/delete_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/delete"
-                style="@android:style/Holo.ButtonBar"/>
+                style="@android:style/Holo.ButtonBar"
+                android:layout_marginTop="10dp"/>
 
         </TableRow>
 

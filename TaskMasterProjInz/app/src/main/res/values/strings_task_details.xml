@@ -2,6 +2,7 @@
 <resources>
     <string name="create_task_label">"Nowe zadanie"</string>
     <string name="edit_task_label">Edytuj zadanie"</string>
+    <string name="choose_executor_label">"Zleć zadanie"</string>
 
     <string name="description">"Dodaj opis zadania..."</string>
     <string name="is_done">"Wykonane:"</string>

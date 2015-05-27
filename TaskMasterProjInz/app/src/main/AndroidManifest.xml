@@ -67,7 +67,11 @@
         <activity
             android:name=".AddGroup"
             android:label="@string/title_activity_add_group"
-            android:noHistory="true">
+            android:noHistory="true" >
+        </activity>
+        <activity
+            android:name=".ChooseTaskExecutor"
+            android:label="@string/title_activity_choose_task_executor" >
         </activity>
     </application>
 

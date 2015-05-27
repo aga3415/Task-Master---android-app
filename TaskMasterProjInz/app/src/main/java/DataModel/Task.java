@@ -15,14 +15,14 @@ public class Task {
     protected MyDate date_exec;
     protected MyDate date_archive;
     protected int cycle_time;
-    protected int id_group;
-    protected int id_executor;
-    protected int id_principal;
+    protected long id_group;
+    protected String id_executor;
+    protected String id_principal;
     protected int points;
 
     public Task(int id, int id_parent, String description, int priority, MyDate date_insert, MyDate date_update,
-                MyDate date_plan_exec, MyDate date_exec, MyDate date_archive, int cycle_time, int id_group,
-                int id_executor, int id_principal, int points){
+                MyDate date_plan_exec, MyDate date_exec, MyDate date_archive, int cycle_time, long id_group,
+                String id_executor, String id_principal, int points){
         this.id = id;
         this.id_parent = id_parent;
         this.description = description;
@@ -96,15 +96,15 @@ public class Task {
         this.cycle_time = cycle_time;
     }
 
-    public void setId_group(int id_group) {
+    public void setId_group(long id_group) {
         this.id_group = id_group;
     }
 
-    public void setId_executor(int id_executor) {
+    public void setId_executor(String id_executor) {
         this.id_executor = id_executor;
     }
 
-    public void setId_principal(int id_principal) {
+    public void setId_principal(String id_principal) {
         this.id_principal = id_principal;
     }
 
@@ -148,15 +148,15 @@ public class Task {
         return cycle_time;
     }
 
-    public int getId_executor() {
+    public String getId_executor() {
         return id_executor;
     }
 
-    public int getId_group() {
+    public long getId_group() {
         return id_group;
     }
 
-    public int getId_principal() {
+    public String getId_principal() {
         return id_principal;
     }
 

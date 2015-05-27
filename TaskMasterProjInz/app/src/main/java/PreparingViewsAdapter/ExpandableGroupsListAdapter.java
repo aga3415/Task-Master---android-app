@@ -15,20 +15,13 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.lang.reflect.Member;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 import DataModel.Group;
 import DataModel.MemberOfGroup;
-import DataModel.MyDate;
-import DataModel.Task;
-import DataModel.User;
 import Database.DbAdapter;
-import PreparingData.CurrentCreatingTask;
-import al.taskmasterprojinz.EditTask;
 import al.taskmasterprojinz.R;
 
 /**

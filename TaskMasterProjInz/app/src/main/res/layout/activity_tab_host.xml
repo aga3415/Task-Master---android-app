@@ -31,10 +31,12 @@
 
         <TableLayout
             android:layout_width="fill_parent"
-            android:layout_height="45dp"
+            android:layout_height="50dp"
             android:id="@+id/table_row_buttons"
             android:stretchColumns="*"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:background="@color/bardzo_jasniutki"
+        >
 
             <TableRow>
                 <ImageButton
@@ -42,21 +44,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/add_task"
-                    style="@android:style/Holo.ButtonBar"/>
+                    style="@android:style/Holo.ButtonBar"
+                    android:layout_marginTop="10dp"/>
 
                 <ImageButton
                     android:id="@+id/calendar_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/calendar"
-                    style="@android:style/Holo.ButtonBar"/>
+                    style="@android:style/Holo.ButtonBar"
+                    android:layout_marginTop="10dp"/>
 
                 <ImageButton
                     android:id="@+id/delete_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/delete"
-                    style="@android:style/Holo.ButtonBar"/>
+                    style="@android:style/Holo.ButtonBar"
+                    android:layout_marginTop="10dp"/>
 
             </TableRow>
 

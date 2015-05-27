@@ -78,9 +78,9 @@ public class PrepareListOfTask {
                 MyDate date_exec = new MyDate(todoCursor.getString(7));
                 MyDate date_archive = new MyDate(todoCursor.getString(8));
                 int cycle_time = todoCursor.getInt(9);
-                int id_group = todoCursor.getInt(10);
-                int id_executor = todoCursor.getInt(11);
-                int id_principal  = todoCursor.getInt(12);
+                long id_group = todoCursor.getLong(10);
+                String id_executor = todoCursor.getString(11);
+                String id_principal  = todoCursor.getString(12);
                 int points = todoCursor.getInt(13);
 
                 Task task = new Task(id, id_parent, description, priority, date_insert, date_update, date_plan_exec,
@@ -137,9 +137,9 @@ public class PrepareListOfTask {
                 MyDate date_exec = new MyDate(todoCursor.getString(7));
                 MyDate date_archive = new MyDate(todoCursor.getString(8));
                 int cycle_time = todoCursor.getInt(9);
-                int id_group = todoCursor.getInt(10);
-                int id_executor = todoCursor.getInt(11);
-                int id_principal  = todoCursor.getInt(12);
+                long id_group = todoCursor.getLong(10);
+                String id_executor = todoCursor.getString(11);
+                String id_principal  = todoCursor.getString(12);
                 int points = todoCursor.getInt(13);
 
                 Task task = new Task(id, id_parent, description, priority, date_insert, date_update, date_plan_exec,
