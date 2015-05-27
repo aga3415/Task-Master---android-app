@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import DataModel.Group;
 import DataModel.MemberOfGroup;
 import DataModel.MyDate;
 import DataModel.Task;
@@ -26,38 +27,58 @@ public class PrepareListGroupsAndUsers {
     }
     public  ExpandableGroupsListAdapter getPreparedAdapter(){
         String[] header = {""};
-        List<User> usersList = new ArrayList<User>();
-        HashMap<String, List<User>> membersOfGroups = new HashMap<>();
+        List<MemberOfGroup> usersList = new ArrayList<MemberOfGroup>();
+        HashMap<Group, List<MemberOfGroup>> membersOfGroups = new HashMap<>();
 
         Cursor members;
         DbAdapter db = DbAdapter.getInstance(context);
 
-
-
         //------------------
         members = db.getAllMembers();
 
-
-
         if(members != null && members.moveToFirst()) {
             do {
-                int id_group = members.getInt(0);
-                int id_user = members.getInt(1);
+                long id_group = members.getLong(0);
+                String id_user = members.getString(1);
+                String user_name = members.getString(2);
 
-                MemberOfGroup member = new MemberOfGroup(id_user, id_group);
+                MemberOfGroup member = new MemberOfGroup(id_user, id_group, user_name);
 
+                //usersList.add(member);
+                Cursor groupCursor = db.getGroupById(id_group);
+                groupCursor.moveToFirst();
+                Group groupModel = new Group(groupCursor.getLong(0), groupCursor.getString(1));
+
+                //ten kawalek kodu się nie wykonuje
+                if (membersOfGroups.containsKey(groupModel)){
+                    ArrayList<MemberOfGroup> pom = (ArrayList<MemberOfGroup>) membersOfGroups.get(groupModel);
+                    pom.add(member);
+                    membersOfGroups.remove(groupModel);
+                    membersOfGroups.put(groupModel, pom);
+                }else{
+                    ArrayList<MemberOfGroup> mog = new ArrayList<MemberOfGroup>();
+                    mog.add(member);
+                    membersOfGroups.put(groupModel, mog);
+
+                    //membersOfGroups.get(groupModel) = membersOfGroups.get(groupModel).add(member);
+
+                }
 
             } while(members.moveToNext());
         }
 
-        //todayTomorrowFutureList.put(standardHeaders[0], tasksForToday);
-        //todayTomorrowFutureList.put(standardHeaders[1], taskForTomorrow);
-        //todayTomorrowFutureList.put(standardHeaders[2], restOfTask);
 
-        //return new ExpandableTaskListAdapter(context, standardHeaders, todayTomorrowFutureList);
+        /* Sprawdzenie poprawnosci przekazywanych danych, jest ok!
+        for (Group g : membersOfGroups.keySet()){
+            System.out.println("GRUPA" + g.getName());
+            for (MemberOfGroup m : membersOfGroups.get(g)){
+                System.out.print(": "+ m.getName() + ", ");
+            }
+            System.out.println("");
+        }*/
 
         //------------------------------
-        return new ExpandableGroupsListAdapter(context, header, membersOfGroups);
+        return new ExpandableGroupsListAdapter(context, membersOfGroups);
     }
 
 

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/task_on_list_layout">
+    android:id="@+id/member_on_list">
 
 
     <TextView
@@ -16,13 +16,14 @@
         android:minHeight="35dp"
         android:focusable="false"
         android:gravity="center_vertical"
-        android:textSize="14dp"/>
+        android:textSize="14dp"
+        android:textColor="@color/abc_primary_text_disable_only_material_light"/>
 
 
     <ImageButton
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:id="@+id/delete_task_button"
+        android:id="@+id/delete_button"
         android:src="@mipmap/delete_gray"
         android:scaleType="fitCenter"
         android:layout_alignParentRight="true"
@@ -34,7 +35,7 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:id="@+id/points_view"
-        android:layout_toLeftOf="@id/delete_task_button"
+        android:layout_toLeftOf="@id/delete_button"
         android:gravity="center_vertical"
         android:layout_centerVertical="true"/>
 

@@ -39,7 +39,7 @@ public class TabHostActivity extends al.taskmasterprojinz.Menu {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab_host);
-        setTitle("TabHost activity");
+        //setTitle("TabHost activity");
         res = getResources();
         initUIElements();
 
@@ -56,6 +56,8 @@ public class TabHostActivity extends al.taskmasterprojinz.Menu {
         mLocalActivityManager.dispatchCreate(savedInstanceState);
 
         initStandardTab();
+        //DbAdapter db = DbAdapter.getInstance(getApplicationContext());
+        //db.refresh();
 
     }
 
@@ -153,7 +155,7 @@ public class TabHostActivity extends al.taskmasterprojinz.Menu {
 
     private void chooseDate(){
         Calendar newCalendar = Calendar.getInstance();
-        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        datePickerDialog = new DatePickerDialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();

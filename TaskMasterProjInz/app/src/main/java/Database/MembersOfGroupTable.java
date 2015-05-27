@@ -14,7 +14,7 @@ import DataModel.MemberOfGroup;
  */
 public class MembersOfGroupTable extends Table {
 
-    Column id_group, id_user;
+    Column id_group, id_user, user_name;
 
     public MembersOfGroupTable(SQLiteDatabase db) {
         super(db);
@@ -23,16 +23,19 @@ public class MembersOfGroupTable extends Table {
     public void setAllInfoAboutTable(){
         this.nameOfTable = "MEMBERSOFGROUPS";
         id_group = new Column ("ID_GROUP", "INTEGER REFERENCES GROUPS(ID) ON DELETE CASCADE", 0);
-        id_user = new Column("ID_USER", "INTEGER REFERENCES USERS(ID) ON DELETE CASCADE", 1);
+        id_user = new Column("ID_USER", "VARCHAR(64) REFERENCES USERS(EMAIL) ON DELETE CASCADE", 1);
+        user_name = new Column("USER_NAME", "VARCHAR(64) NOT NULL", 2);
+
 
         listOfColumns.add(id_group);
         listOfColumns.add(id_user);
+        listOfColumns.add(user_name);
 
     }
 
-    public boolean delete(SQLiteDatabase db, String group, long user){
-        String where = listOfColumns.get(0).name + "=" + group + "AND"
-                + listOfColumns.get(1).name + "=" + Long.toString(user);
+    public boolean delete(SQLiteDatabase db, MemberOfGroup member){
+        String where = listOfColumns.get(0).name + "=" + member.getId_group() + " AND "
+                + listOfColumns.get(1).name + "= '" + member.getId_user() + "'";
         return db.delete(nameOfTable, where, null) > 0;
     }
 
@@ -51,6 +54,9 @@ public class MembersOfGroupTable extends Table {
         ContentValues newMember = new ContentValues();
         newMember.put(listOfColumns.get(0).name, member.getId_group());
         newMember.put(listOfColumns.get(1).name, member.getId_user());
+        newMember.put(listOfColumns.get(2).name, member.getName());
+
+        db.insert(nameOfTable, null, newMember);
     }
 
 }

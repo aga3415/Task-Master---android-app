@@ -60,12 +60,13 @@
         </RelativeLayout>
 
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/header_layout"
             android:layout_marginTop="10dp"
-            style="@android:style/TextAppearance.Holo">
+            android:id="@+id/scroller"
+        >
 
 
 
@@ -77,7 +78,7 @@
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="wrap_content"
                     android:id="@+id/description_layout">
 
                     <ImageView
@@ -95,13 +96,13 @@
                         android:hint="@string/add_group_hint"
                         android:id="@+id/description_edit"/>
 
-                </LinearLayout>
+            </LinearLayout>
 
 
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/description_layout"
                     android:layout_marginTop="5dp"
                     android:id="@+id/add_user_layout">
@@ -111,25 +112,94 @@
                         android:layout_height="35dp"
                         android:src="@mipmap/user"
                         android:scaleType="fitCenter"
-                        android:id="@+id/calendar_icon"/>
-                    <TextView
+                        android:id="@+id/add_user_name_icon"
+                        android:layout_alignParentLeft="true"/>
+
+                    <ImageButton
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@mipmap/contacts"
+                        android:gravity="center_vertical"
+                        android:id="@+id/contacts_button"
+                        android:layout_alignParentRight="true"
+                        style="@android:style/Holo.ButtonBar"
+                        />
+
+                    <EditText
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:minHeight="35dp"
                         android:layout_marginLeft="8dp"
-                        android:text="@string/add_users_text"
-                        android:id="@+id/add_user"/>
+                        android:hint="@string/add_users_text"
+                        android:id="@+id/add_user_name_txt"
+                        android:layout_toRightOf="@id/add_user_name_icon"
+                        android:layout_toLeftOf="@id/contacts_button"/>
 
-                </LinearLayout>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/add_user_layout"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/add_user_email_layout">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@mipmap/email"
+                        android:scaleType="fitCenter"
+                        android:id="@+id/add_email_icon"
+                        android:layout_alignParentLeft="true"/>
+
+                    <ImageButton
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@mipmap/add_task"
+                        android:gravity="center_horizontal"
+                        android:id="@+id/confirm_adding"
+                        android:layout_alignParentRight="true"
+                        style="@android:style/Holo.ButtonBar"
+                        />
+
+                    <EditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:minHeight="35dp"
+                        android:layout_marginLeft="8dp"
+                        android:hint="@string/add_users_email"
+                        android:id="@+id/add_user_email_txt"
+                        android:layout_toRightOf="@id/add_email_icon"
+                        android:layout_toLeftOf="@id/confirm_adding"/>
+
+
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/users_list"
+                    android:layout_below="@id/add_user_email_layout"
+                    android:layout_marginTop="25dp"
+                    android:textSize="18dp"
+                    android:textColor="@color/my_text"
+                    android:id="@+id/title_user_list_txt"
+                    android:visibility="gone"
+                />
 
                 <ListView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/added_users_list"
-                    android:layout_below="@id/add_user_layout">
+                    android:layout_below="@id/title_user_list_txt"
+                >
 
-                    </ListView>
+                </ListView>
 
 
 
@@ -137,7 +207,7 @@
 
 
 
-        </ScrollView>
+        </LinearLayout>
 
 
 </RelativeLayout>

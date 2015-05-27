@@ -5,27 +5,36 @@ package DataModel;
  */
 public class MemberOfGroup {
 
-    private int id_user;
-    private int id_group;
+    private String id_user;
+    private long id_group;
+    private String name;
 
-    public MemberOfGroup(int id_user, int id_group){
+    public MemberOfGroup(String id_user, long id_group, String name){
         this.id_user = id_user;
+        this.name = name;
         this.id_group = id_group;
     }
 
-    public void setId_user(int id_user) {
+    public void setId_user(String id_user) {
         this.id_user = id_user;
     }
 
-    public void setId_group(int id_group) {
+    public void setId_group(long id_group) {
         this.id_group = id_group;
     }
 
-    public int getId_group() {
+    public long getId_group() {
         return id_group;
     }
 
-    public int getId_user() {
+    public String getId_user() {
         return id_user;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+    public String getName(){
+        return name;
     }
 }

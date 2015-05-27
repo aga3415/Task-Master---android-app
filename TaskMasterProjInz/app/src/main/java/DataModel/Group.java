@@ -5,15 +5,15 @@ package DataModel;
  */
 public class Group {
 
-    private int id;
+    private long id;
     private String name;
 
-    public Group(int id, String name){
+    public Group(long id, String name){
         this.id = id;
         this.name = name;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -21,11 +21,21 @@ public class Group {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
     public String getName() {
         return name;
+    }
+
+    public boolean equals(Object group){
+        if (group == null) return false;
+        if (! (group instanceof Group)) return false;
+        if (this.id == ((Group) group).id && this.name.equals(((Group) group).getName())) return true;
+        return false;
+    }
+    public int hashCode(){
+        return (int) id;
     }
 }

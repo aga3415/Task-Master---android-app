@@ -16,7 +16,8 @@
         android:minHeight="45dp"
         android:focusable="false"
         android:gravity="center_vertical"
-        android:textSize="14dp"/>
+        android:textSize="14dp"
+        android:textColor="@color/abc_primary_text_disable_only_material_light"/>
 
 
     <ImageButton

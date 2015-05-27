@@ -1,9 +1,14 @@
 package Database;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import DataModel.Group;
+import DataModel.MyDate;
 
 /**
  * Created by Agnieszka on 2015-05-02.
@@ -18,22 +23,60 @@ public class GroupsTable extends Table {
     public void setAllInfoAboutTable(){
         this.nameOfTable = "GROUPS";
         id = new Column ("ID", "INTEGER PRIMARY KEY AUTOINCREMENT", 0);
-        name = new Column("NAME", "TEXT NOT NULL", 1);
+        name = new Column("NAME", "VARCHAR(64) NOT NULL", 1);
 
         listOfColumns.add(id);
         listOfColumns.add(name);
 
     }
 
-    public void insert(SQLiteDatabase db, String name){
+    public long insert(SQLiteDatabase db, String name){
         ContentValues newGroup = new ContentValues();
         newGroup.put(listOfColumns.get(1).name, name);
-        db.insert(nameOfTable, null, newGroup);
-
+        return db.insert(nameOfTable, null, newGroup);
     }
 
     public void delete(SQLiteDatabase db, Group group){
         String where = listOfColumns.get(0).name + "=" + group.getId();
         db.delete(nameOfTable, where, null);
     }
+
+    public Cursor getGroupById(SQLiteDatabase db, long id){
+        List<String> colNames = new ArrayList<String>();
+
+        String where = this.id.name + " = " + id;
+
+        for (Column c : listOfColumns){
+            colNames.add(c.name);
+        }
+
+        String[] columns = colNames.toArray(new String [colNames.size()]);
+        return db.query(nameOfTable, columns, where, null, null, null, null);
+    }
+
+    public Cursor getGroupByName(SQLiteDatabase db, String nameOfGroup) {
+        List<String> colNames = new ArrayList<String>();
+
+        String where = name.name + " = '" + nameOfGroup + "'";
+
+        for (Column c : listOfColumns){
+            colNames.add(c.name);
+        }
+
+        String[] columns = colNames.toArray(new String [colNames.size()]);
+        return db.query(nameOfTable, columns, where, null, null, null, null);
+        //public Cursor query (String table, String[] columns, String selection,
+        // String[] selectionArgs, String groupBy, String having, String orderBy)
+    }
+
+    public boolean ifExistGroupWithName(SQLiteDatabase db, String nameOfGroup){
+        return getGroupByName(db, nameOfGroup).getCount() <= 0;
+    }
+
+    /*public long selectGroupIdByName(SQLiteDatabase db, String name){
+        Cursor group = getGroupByName(db, name);
+        if (group.getCount() > 0) return group.getLong(0);
+        System.out.println("NIE MA TAKIEJ GRUPY");
+        return 0;
+    }*/
 }

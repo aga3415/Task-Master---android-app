@@ -3,10 +3,23 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/jasny</item>
+        <item name="colorPrimaryDark">@color/ciemniejszy</item>
+        <item name="colorAccent">@color/ciemniejszy</item>
+    </style>
+
+    <style name="AppDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/jasny</item>
+        <item name="colorPrimaryDark">@color/ciemniejszy</item>
+        <item name="colorAccent">@color/ciemniejszy</item>
 
     </style>
 
+
+
     <color name="my_text">#1e90ff</color>
+    <color name="jasny">#99d9fa</color>
+    <color name="ciemniejszy">#7aadc8</color>
 
 
 

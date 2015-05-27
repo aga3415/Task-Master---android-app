@@ -152,8 +152,8 @@ public class DbAdapter {
         return tasksTable.delete(id,db);
     }
 
-    public boolean deleteMemberOfGroup(String groupName, long userId){
-        return membersOfGroupTable.delete(db, groupName,userId);
+    public boolean deleteMemberOfGroup(MemberOfGroup member){
+        return membersOfGroupTable.delete(db, member);
     }
 
     public Cursor getAllMembers(){
@@ -169,8 +169,12 @@ public class DbAdapter {
         return db.rawQuery(statement, null);
     }
 
-    public void insertGroup(String name){
-        groupsTable.insert(db, name);
+    public long insertGroup(String name){
+        return groupsTable.insert(db, name);
+    }
+
+    public Cursor getGroupById(long id) {
+        return groupsTable.getGroupById(db, id);
     }
 
     public void deleteGroup(Group group){
@@ -187,6 +191,18 @@ public class DbAdapter {
     public void insertMemberOfGroup(MemberOfGroup member){
         membersOfGroupTable.insert(db, member);
     }
+
+    public Cursor getGroupByName(String name){
+        return groupsTable.getGroupByName(db, name);
+    }
+
+    public boolean ifExistGroupWithName(String name){
+        return groupsTable.ifExistGroupWithName(db, name);
+    }
+
+    /*public long getGroupIdByName(String name){
+        return groupsTable.selectGroupIdByName(db, name);
+    }*/
 
 
 

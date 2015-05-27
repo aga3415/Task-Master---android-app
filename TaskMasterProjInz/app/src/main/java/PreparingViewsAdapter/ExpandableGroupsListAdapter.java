@@ -15,11 +15,13 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import DataModel.Group;
 import DataModel.MemberOfGroup;
 import DataModel.MyDate;
 import DataModel.Task;
@@ -36,48 +38,43 @@ public class ExpandableGroupsListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private Resources res;
-    private Calendar calendar;
-    private List<String> listDataHeader; // tytuly naglowkow
+    private List<Group> listDataHeader; // grupy jako cale klasy
+    private HashMap<Group, List<MemberOfGroup>> listChildData;
     private ExpandableGroupsListAdapter instance;
 
 
 
-    public HashMap<String, List<User>> listDataChild;
+    //public HashMap<String, List<User>> listDataChild;
     //format: naglowek listy, wszystkie elementy listy,
 
-    public ExpandableGroupsListAdapter(Context context, String [] headers, HashMap<String, List<User>> listChildData) {
+    public ExpandableGroupsListAdapter(Context context, HashMap<Group, List<MemberOfGroup>> listChildData) {
         this.context = context;
         res = context.getResources();
         instance = this;
-        this.listDataHeader = new ArrayList<>();
-        //listDataHeader = headers;
-        //String [] headers = res.getStringArray(R.array.task_headers);
-        for (String h : headers){
-            listDataHeader.add(h);
+        this.listDataHeader = new ArrayList<Group>();
+        for (Group g : listChildData.keySet()){
+            listDataHeader.add(g);
         }
-
-        this.listDataChild = listChildData;
-
-
+        this.listChildData = listChildData;
 
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosititon) {
-        return this.listDataChild.get(this.listDataHeader.get(groupPosition))
-                .get(childPosititon).getLogin();
-    }
-    public User getMember(int groupPosition, int childPosititon) {
-        return this.listDataChild.get(this.listDataHeader.get(groupPosition))
+    public MemberOfGroup getChild(int groupPosition, int childPosititon) {
+        return this.listChildData.get(this.listDataHeader.get(groupPosition))
                 .get(childPosititon);
     }
+    /*public MemberOfGroup getMember(int groupPosition, int childPosititon) {
+        return this.listChildData.get(this.listDataHeader.get(groupPosition))
+                .get(childPosititon);
+    }*/
 
 
 
-    public long getId(int groupPosition, int childPosititon) {
-        return this.listDataChild.get(this.listDataHeader.get(groupPosition))
-                .get(childPosititon).getId();
-    }
+    /*public long getId(int groupPosition, int childPosititon) {
+        return this.listChildData.get(this.listDataHeader.get(groupPosition))
+                .get(childPosititon).getId_group();
+    }*/
 
 
 
@@ -91,7 +88,7 @@ public class ExpandableGroupsListAdapter extends BaseExpandableListAdapter {
     public View getChildView(final int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String childText = (String) getChild(groupPosition, childPosition);
+        final String childText = (String) getChild(groupPosition, childPosition).getName();
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
@@ -99,8 +96,8 @@ public class ExpandableGroupsListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.member_on_list, null);
         }
 
-        //final TextView txtListChild = (TextView) convertView
-        //        .findViewById(R.id.users_name);
+        final TextView txtListChild = (TextView) convertView.findViewById(R.id.users_name);
+        txtListChild.setText(childText);
         //txtListChild.setOnClickListener(new View.OnClickListener() {
             //@Override
             //public void onClick(View v) {
@@ -120,17 +117,16 @@ public class ExpandableGroupsListAdapter extends BaseExpandableListAdapter {
         //});
 
         ImageButton delete = (ImageButton) convertView.findViewById((R.id.delete_button));
-
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DbAdapter db = DbAdapter.getInstance(context);
-                User removingUser = getMember(groupPosition, childPosition);
-                String removingGroupName = (String) getGroup(groupPosition);
+                MemberOfGroup removingUser = getChild(groupPosition, childPosition);
+                //String removingGroupName = (String) getGroup(groupPosition);
 
-                db.deleteMemberOfGroup(removingGroupName, removingUser.getId());
+                db.deleteMemberOfGroup(removingUser);
 
-                listDataChild.get(getGroup(groupPosition)).remove(removingUser);
+                listChildData.get(getGroup(groupPosition)).remove(removingUser);
                 instance.notifyDataSetChanged();
 
             }
@@ -141,12 +137,12 @@ public class ExpandableGroupsListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.listDataChild.get(this.listDataHeader.get(groupPosition))
+        return this.listChildData.get(this.listDataHeader.get(groupPosition))
                 .size();
     }
 
     @Override
-    public Object getGroup(int groupPosition) {
+    public Group getGroup(int groupPosition) {
         return this.listDataHeader.get(groupPosition);
     }
 
@@ -163,15 +159,14 @@ public class ExpandableGroupsListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-        String headerTitle = (String) getGroup(groupPosition);
+        String headerTitle = (String) getGroup(groupPosition).getName();
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.header_task_list, null);
         }
 
-        TextView lblListHeader = (TextView) convertView
-                .findViewById(R.id.task_list_header_title);
+        TextView lblListHeader = (TextView) convertView.findViewById(R.id.task_list_header_title);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
 
