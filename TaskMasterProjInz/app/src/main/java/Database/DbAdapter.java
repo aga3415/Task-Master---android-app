@@ -200,6 +200,18 @@ public class DbAdapter {
         return groupsTable.ifExistGroupWithName(db, name);
     }
 
+    public Cursor getMemberById(String id){
+        return membersOfGroupTable.getMemberById(db, id);
+    }
+
+    public Cursor getGroupedTasks(){
+        return tasksTable.getGroupedTasks(db);
+    }
+
+    public Cursor getSendedTasks(){
+        return tasksTable.getSendedTasks(db);
+    }
+
     /*public long getGroupIdByName(String name){
         return groupsTable.selectGroupIdByName(db, name);
     }*/

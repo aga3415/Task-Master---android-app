@@ -1,11 +1,13 @@
 package al.taskmasterprojinz;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActivityGroup;
 import android.app.DatePickerDialog;
 import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -63,16 +65,22 @@ public class TabHostActivity extends al.taskmasterprojinz.Menu {
     }
 
     protected void onResume(){
-        super.onResume();
+        //super.onResume();
         MyTasksView.refresh();
         MyTasksForDate.refresh();
+        GroupsTasks.refresh();
+        GroupsTasksForDate.refresh();
+        super.onResume();
 
     }
 
     protected void onRestart(){
-        super.onResume();
+
         MyTasksView.refresh();
         MyTasksForDate.refresh();
+        GroupsTasks.refresh();
+        GroupsTasksForDate.refresh();
+        super.onRestart();
 
     }
 
@@ -82,10 +90,10 @@ public class TabHostActivity extends al.taskmasterprojinz.Menu {
         tab1.setContent(new Intent(getApplicationContext(),MyTasksView.class));
 
         tab2.setIndicator(res.getString(R.string.sended_tasks));
-        tab2.setContent(new Intent(getApplicationContext(),MyTasksView.class));
+        tab2.setContent(new Intent(getApplicationContext(),SendedTaskView.class));
 
         tab3.setIndicator(res.getString(R.string.group_tasks));
-        tab3.setContent(new Intent(getApplicationContext(),MyTasksView.class));
+        tab3.setContent(new Intent(getApplicationContext(),GroupsTasks.class));
 
         /** Add the tabs  to the TabHost to display. */
 
@@ -95,7 +103,7 @@ public class TabHostActivity extends al.taskmasterprojinz.Menu {
         tabHost.addTab(tab2);
         tabHost.addTab(tab3);
 
-        tabHost.setCurrentTab(0);
+        tabHost.setCurrentTab(1);
     }
 
     private void initNewTab(){
@@ -104,20 +112,21 @@ public class TabHostActivity extends al.taskmasterprojinz.Menu {
         tab1.setContent(new Intent(getApplicationContext(),MyTasksForDate.class));
 
         tab2.setIndicator(res.getString(R.string.sended_tasks));
-        tab2.setContent(new Intent(getApplicationContext(),MyTasksForDate.class));
+        tab2.setContent(new Intent(getApplicationContext(),SendedTaskView.class));
 
         tab3.setIndicator(res.getString(R.string.group_tasks));
-        tab3.setContent(new Intent(getApplicationContext(),MyTasksForDate.class));
+        tab3.setContent(new Intent(getApplicationContext(),GroupsTasksForDate.class));
 
         /** Add the tabs  to the TabHost to display. */
 
+        tabHost.clearAllTabs();
         tabHost.setup(mLocalActivityManager);
 
         tabHost.addTab(tab1);
         tabHost.addTab(tab2);
         tabHost.addTab(tab3);
 
-        tabHost.setCurrentTab(0);
+        tabHost.setCurrentTab(1);
     }
 
     private void initUIElements(){
@@ -167,9 +176,16 @@ public class TabHostActivity extends al.taskmasterprojinz.Menu {
 
                 //zmiana na zakladki z zadaniami tylko z konkretna data
 
-                tabHost.getCurrentTab();
+                int current = tabHost.getCurrentTab();
                 tabHost.clearAllTabs();
                 initNewTab();
+                tabHost.setCurrentTab(current);
+                for (int i =0; i <3; i++){
+                    tabHost.setCurrentTab(i);
+                    onRestart();
+                }
+                tabHost.setCurrentTab(current);
+                onRestart();
 
 
             }
@@ -180,6 +196,7 @@ public class TabHostActivity extends al.taskmasterprojinz.Menu {
     }
 
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void editNewTask(){
         Intent edit_task_activity = new Intent(getApplicationContext(), CreateTask.class);
         //startActivity(edit_task_activity);

@@ -45,10 +45,11 @@ public class Menu extends ActionBarActivity {
             case R.id.groups :
                 goToGroupsActivity();
                 break;
-            case R.id.settings :
+            /*case R.id.settings :
                 //przejscie do aktywnosci z ustawieniami
                 settings();
                 break;
+             */
             case R.id.help :
                 //przejscie do aktywnosci z pomocą
                 help();

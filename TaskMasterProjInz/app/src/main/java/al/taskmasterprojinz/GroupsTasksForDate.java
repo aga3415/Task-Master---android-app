@@ -4,23 +4,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ExpandableListView;
 
+import DataModel.MyDate;
 import PreparingData.CurrentCreatingTask;
 import PreparingData.PrepareListOfTask;
 
 /**
- * Created by Agnieszka on 2015-05-11.
+ * Created by Agnieszka on 2015-05-27.
  */
-public class MyTasksForDate extends TasksListViewPattern {
+public class GroupsTasksForDate extends TasksListViewPattern {
 
-    static MyTasksForDate instance;
+    static GroupsTasksForDate instance;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         initList();
         listAdapter.notifyDataSetChanged();
         instance = this;
-        System.out.println("MY TASK FOR DATE STARTED");
-
     }
 
     protected void onResume(){
@@ -37,19 +36,22 @@ public class MyTasksForDate extends TasksListViewPattern {
 
     private void initList(){
 
-        //System.out.println("MY TASKS FOR DATE INIT LIST");
         prepTask = PrepareListOfTask.getInstance(this);
         expListView = (ExpandableListView) findViewById(R.id.expandableListView);
 
         newTask = CurrentCreatingTask.getInstance();
-        if(newTask.getDate_plan_exec().isEmpty()) {
-            listAdapter = prepTask.todayTomorrowInFutureTaskLists();
+        if (newTask.getDate_plan_exec().isEmpty()){
+            listAdapter = prepTask.groupedTasksList();
             header_task_list.setVisibility(View.GONE);
-        }
-        else{
-            listAdapter = prepTask.tasksForGivenDate(newTask.getDate_plan_exec());
-            System.out.println("ZAINICJOWANO LIST ADAPTERA");
 
+        }else if (MyDate.isEqual(newTask.getDate_plan_exec(), MyDate.getTodayDate())){
+            listAdapter = prepTask.groupedTasksListForDate(newTask.getDate_plan_exec());
+            header_task_list.setVisibility(View.VISIBLE);
+            header_task_list.setText(newTask.getDate_plan_exec().getDateStringDMY());
+        }else{
+            listAdapter = prepTask.groupedTasksListForDate(newTask.getDate_plan_exec());
+            header_task_list.setVisibility(View.VISIBLE);
+            header_task_list.setText(newTask.getDate_plan_exec().getDateStringDMY());
         }
 
         expListView.setAdapter(listAdapter);
@@ -76,6 +78,4 @@ public class MyTasksForDate extends TasksListViewPattern {
         }
 
     }
-
-
 }

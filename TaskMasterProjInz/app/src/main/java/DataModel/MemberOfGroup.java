@@ -37,4 +37,16 @@ public class MemberOfGroup {
     public String getName(){
         return name;
     }
+
+    public boolean equals(Object group){
+        if (group == null) return false;
+        if (! (group instanceof MemberOfGroup)) return false;
+        if (this.id_group == ((MemberOfGroup) group).getId_group() && this.name.equals(((MemberOfGroup) group).getName())) return true;
+        return false;
+    }
+    public int hashCode(){
+        return (int) id_group + name.length();
+    }
+
+
 }

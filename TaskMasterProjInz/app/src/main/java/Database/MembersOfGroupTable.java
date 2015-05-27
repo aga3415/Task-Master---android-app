@@ -59,4 +59,14 @@ public class MembersOfGroupTable extends Table {
         db.insert(nameOfTable, null, newMember);
     }
 
+    public Cursor getMemberById(SQLiteDatabase db, String id) {
+        List<String> colNames = new ArrayList<String>();
+        String where = listOfColumns.get(1).name + "= '" + id + "'";
+        for (Column c : listOfColumns) {
+            colNames.add(c.name);
+        }
+        String[] columns = colNames.toArray(new String[colNames.size()]);
+        return db.query(nameOfTable, columns, where, null, null, null, null);
+    }
+
 }

@@ -34,7 +34,7 @@ public class TasksTable extends Table{
         priority = new Column("PRIORITY", "INTEGER", 3);
         date_insert = new Column("DATE_INSERT", "DATE DEFAULT 'NOW'", 4);
         date_update = new Column ("DATE_UPDATE", "DATE", 5);
-        date_plan_exec = new Column("DATE_PLAN_EXEC", "TEXT",6);
+        date_plan_exec = new Column("DATE_PLAN_EXEC", "VARCHAR(160)",6);
         date_exec = new Column("DATE_EXEC", "DATE",7);
         date_archive = new Column("DATE_ARCHIVE", "DATE",8);
         cycle_time = new Column("CYCLE_TIME", "INTEGER", 9);
@@ -121,11 +121,24 @@ public class TasksTable extends Table{
 
     public Cursor getAllTasks(SQLiteDatabase db) {
         List<String> colNames = new ArrayList<String>();
+        String where = listOfColumns.get(10).name + " =0 AND " + listOfColumns.get(11).name + " IS NULL";
         for (Column c : listOfColumns){
             colNames.add(c.name);
         }
         String[] columns = colNames.toArray(new String [colNames.size()]);
-        return db.query(nameOfTable, columns, null, null, null, null, "date_plan_exec");
+        return db.query(nameOfTable, columns, where, null, null, null, "date_plan_exec");
+        //public Cursor query (String table, String[] columns, String selection,
+        // String[] selectionArgs, String groupBy, String having, String orderBy)
+    }
+
+    public Cursor getGroupedTasks(SQLiteDatabase db) {
+        List<String> colNames = new ArrayList<String>();
+        String where = listOfColumns.get(10).name + " <>0";
+        for (Column c : listOfColumns){
+            colNames.add(c.name);
+        }
+        String[] columns = colNames.toArray(new String [colNames.size()]);
+        return db.query(nameOfTable, columns, where, null, null, null, "date_plan_exec");
         //public Cursor query (String table, String[] columns, String selection,
         // String[] selectionArgs, String groupBy, String having, String orderBy)
     }
@@ -150,7 +163,8 @@ public class TasksTable extends Table{
     public Cursor getTasksForGivenDate(SQLiteDatabase db, MyDate date) {
         List<String> colNames = new ArrayList<String>();
 
-        String where = date_plan_exec.name + " = '" + date.getDateString()+"'";
+        String where = date_plan_exec.name + " = '" + date.getDateString()+" '";//"' AND " +
+                //listOfColumns.get(10).name + " =0 AND " + listOfColumns.get(11).name + " IS NULL";
 
         for (Column c : listOfColumns){
             colNames.add(c.name);
@@ -158,6 +172,18 @@ public class TasksTable extends Table{
 
         String[] columns = colNames.toArray(new String [colNames.size()]);
         return db.query(nameOfTable, columns, where, null, null, null, null);
+        //public Cursor query (String table, String[] columns, String selection,
+        // String[] selectionArgs, String groupBy, String having, String orderBy)
+    }
+
+    public Cursor getSendedTasks(SQLiteDatabase db) {
+        List<String> colNames = new ArrayList<String>();
+        String where = listOfColumns.get(11).name + " IS NOT NULL";
+        for (Column c : listOfColumns){
+            colNames.add(c.name);
+        }
+        String[] columns = colNames.toArray(new String [colNames.size()]);
+        return db.query(nameOfTable, columns, where, null, null, null, "date_plan_exec");
         //public Cursor query (String table, String[] columns, String selection,
         // String[] selectionArgs, String groupBy, String having, String orderBy)
     }

@@ -1,6 +1,7 @@
 package al.taskmasterprojinz;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -94,15 +95,20 @@ public class ChooseTaskExecutor extends Activity {
         newTask.setId_group(group_id);
         newTask.setId_executor(user_id);
 
+        Intent backToCreatingTask = new Intent(getApplicationContext(), CreateTask.class);
+        startActivity(backToCreatingTask);
+
         //finishActivity(0);
         //onBackPressed();
-        onBackPressed();
+        //onBackPressed();
         //finish();
     }
 
     public void addTaskListener(){
 
-        onBackPressed();
+        Intent backToCreatingTask = new Intent(getApplicationContext(), CreateTask.class);
+        startActivity(backToCreatingTask);
+        //onBackPressed();
         //finishActivity(0);
 
     }

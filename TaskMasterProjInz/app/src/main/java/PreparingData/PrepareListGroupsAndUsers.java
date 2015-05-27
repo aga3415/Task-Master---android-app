@@ -107,7 +107,6 @@ public class PrepareListGroupsAndUsers {
                 groupCursor.moveToFirst();
                 Group groupModel = new Group(groupCursor.getLong(0), groupCursor.getString(1));
 
-                //ten kawalek kodu się nie wykonuje
                 if (membersOfGroups.containsKey(groupModel)){
                     ArrayList<MemberOfGroup> pom = (ArrayList<MemberOfGroup>) membersOfGroups.get(groupModel);
                     pom.add(member);

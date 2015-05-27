@@ -71,7 +71,23 @@
         </activity>
         <activity
             android:name=".ChooseTaskExecutor"
-            android:label="@string/title_activity_choose_task_executor" >
+            android:label="@string/title_activity_choose_task_executor"
+            android:noHistory="true">
+        </activity>
+        <activity
+            android:name=".GroupsTasks"
+            android:label="@string/title_activity_choose_task_executor"
+            android:noHistory="true">
+        </activity>
+        <activity
+            android:name=".GroupsTasksForDate"
+            android:label="@string/title_activity_choose_task_executor"
+            android:noHistory="true">
+        </activity>
+        <activity
+            android:name=".SendedTaskView"
+            android:label="@string/title_activity_choose_task_executor"
+            android:noHistory="true">
         </activity>
     </application>
 

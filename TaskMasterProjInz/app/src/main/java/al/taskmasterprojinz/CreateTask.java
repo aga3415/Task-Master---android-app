@@ -178,15 +178,17 @@ public class CreateTask extends Activity {
         }else{
             description.setText(newTask.getDescription());
         }
-        if (newTask.getId_group() > 0 ){
-
+        //txt_executor.setText("Group_id: " + newTask.getId_group() +" User :" + newTask.getId_executor());
+        if (newTask.getId_group() != 0 ){
+            txt_executor.setText(res.getString(R.string.choosen_executor)+ res.getString(R.string.choosen_group_name) + newTask.getGroup_name(getApplicationContext()) );
         }else if (newTask.getId_executor() != null) {
-            txt_executor.setText(newTask.getId_executor());
+            txt_executor.setText(res.getString(R.string.choosen_executor) + res.getString(R.string.choosen_user_name) + newTask.getUser_executor_name(getApplicationContext()));
         }
 
     }
 
     public void chooseExecutor(){
+        if (!(description.getText().toString().equals(""))) newTask.setDescription(description.getText().toString());
         Intent chooseExecutor = new Intent(getApplicationContext(), ChooseTaskExecutor.class);
         startActivity(chooseExecutor);
     }

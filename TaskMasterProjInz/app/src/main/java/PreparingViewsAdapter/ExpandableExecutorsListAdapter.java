@@ -253,6 +253,7 @@ public class ExpandableExecutorsListAdapter extends BaseExpandableListAdapter {
                 rb.setChecked(!isChecked);
                 if (rb.isChecked()){
                     newTask.setId_executor(getChild(groupPosition,childPosition).getId_user());
+                    newTask.setId_group(0);
                 }
 
                 return false;
@@ -275,6 +276,7 @@ public class ExpandableExecutorsListAdapter extends BaseExpandableListAdapter {
                 rb.setChecked(!isChecked);
                 if (rb.isChecked()){
                     newTask.setId_group(getGroup(groupPosition).getId());
+                    newTask.setId_executor(null);
                 }
                 return false;
             }

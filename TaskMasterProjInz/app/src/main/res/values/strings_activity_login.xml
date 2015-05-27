@@ -5,6 +5,7 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Hasło</string>
     <string name="action_sign_in">Zaloguj</string>
+    <string name="action_sign_up">Zarejestruj</string>
     <string name="action_sign_in_short">Logowanie</string>
 
     <string name="error_invalid_email">Adres email jest nieprawidłowy</string>

@@ -28,7 +28,7 @@ public class TasksListViewPattern extends Activity {
     ExpandableTaskListAdapter listAdapter;
     ExpandableListView expListView;
 
-    TextView header;
+    TextView header, header_task_list;
     ImageButton calendar, edit, remove, menu;
 
     PrepareListOfTask prepTask;
@@ -46,6 +46,7 @@ public class TasksListViewPattern extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_llist_vie_pattern);
         res = getApplicationContext().getResources();
+        header_task_list = (TextView) findViewById(R.id.task_list_header_title);
     }
 
 }

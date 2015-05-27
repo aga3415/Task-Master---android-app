@@ -23,6 +23,8 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import DataModel.Group;
+import DataModel.MemberOfGroup;
 import DataModel.MyDate;
 import DataModel.Task;
 import Database.DbAdapter;
@@ -37,17 +39,51 @@ public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
     private Resources res;
     private Calendar calendar;
     private List<String> listDataHeader; // tytuly naglowkow
-    private ExpandableTaskListAdapter instance;
+    private ExpandableTaskListAdapter instance, instance2;
 
     private MyDate date;
 
     public HashMap<String, List<Task>> listDataChild;
     //format: naglowek listy, wszystkie elementy listy,
 
+    public ExpandableTaskListAdapter(Context context, HashMap<MemberOfGroup, List<Task>> listOfTasks, boolean isUser){
+        this.context = context;
+        instance = this;
+        this.listDataHeader = new ArrayList<>();
+        this.listDataChild = new HashMap<String, List<Task>>();
+
+        for (MemberOfGroup m : listOfTasks.keySet()){
+            listDataHeader.add(m.getName());
+            listDataChild.put(m.getName(), listOfTasks.get(m));
+        }
+
+        date = MyDate.getTodayDate();
+
+
+    }
+
+    public ExpandableTaskListAdapter(Context context, HashMap<Group, List<Task>> listOfTasks){
+        this.context = context;
+        instance = this;
+        this.listDataHeader = new ArrayList<>();
+        this.listDataChild = new HashMap<String, List<Task>>();
+
+        for (Group g : listOfTasks.keySet()){
+            listDataHeader.add(g.getName());
+            listDataChild.put(g.getName(), listOfTasks.get(g));
+        }
+
+        date = MyDate.getTodayDate();
+
+
+    }
+
+
+
     public ExpandableTaskListAdapter(Context context, String [] headers, HashMap<String, List<Task>> listChildData) {
         this.context = context;
         res = context.getResources();
-        instance = this;
+        instance2 = this;
         this.listDataHeader = new ArrayList<>();
         //listDataHeader = headers;
         //String [] headers = res.getStringArray(R.array.task_headers);
@@ -132,7 +168,8 @@ public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
                 }
                 DbAdapter db = DbAdapter.getInstance(context);
                 db.update(task);
-                instance.notifyDataSetChanged();
+                /*if (instance != null) instance.*/notifyDataSetChanged();
+                //if(instance2 != null) instance2.notifyDataSetChanged();
 
             }
         });
@@ -157,7 +194,8 @@ public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
                 db.deleteTask(toDelete.getId());
                 //Toast.makeText(context, "Usunięto zadanie", Toast.LENGTH_LONG);
                 listDataChild.get(getGroup(groupPosition)).remove(toDelete);
-                instance.notifyDataSetChanged();
+                /*if (instance != null) instance.*/notifyDataSetChanged();
+                //if(instance2 != null) instance2.notifyDataSetChanged();
 
             }
         });
@@ -238,6 +276,7 @@ public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
     }
 
     public boolean canExpandFirstGroup(){
+        if (listDataHeader.isEmpty()) return false;
         return !(getChildrenCount(0) == 0);
     }
 }
