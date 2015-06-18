@@ -9,13 +9,24 @@
 
     <!-- Login progress -->
     <ImageView
-        android:layout_width="85dp"
-        android:layout_height="85dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:src="@mipmap/logo"/>
     <ProgressBar android:id="@+id/login_progress" style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_marginBottom="8dp" android:visibility="gone" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/connection_error_view"
+        android:visibility="gone"
+        android:text="@string/error_connection_establish"
+        android:textColor="@color/my_text"
+        android:textSize="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="15dp"/>
     <ScrollView android:id="@+id/login_form" android:layout_width="match_parent"
         android:layout_height="match_parent">
 

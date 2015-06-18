@@ -25,6 +25,11 @@ public abstract class Table {
 
     }
 
+    public Table(){
+        listOfColumns = new ArrayList<Column>();
+        setAllInfoAboutTable();
+    }
+
     public class Column{
         public String name;
         public String options;
@@ -41,6 +46,13 @@ public abstract class Table {
     //tutaj powinny byc wpisane wszystkie informacje o kolumnach,
     // wszystkie Column powinny byc dodane do listy
 
+    public String getNameOfTable(){
+        return nameOfTable;
+    }
+
+    public List<Column> getListOfColumns(){
+        return listOfColumns;
+    }
 
     private void composeCreate(){
 

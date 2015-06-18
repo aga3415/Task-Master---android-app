@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -30,6 +29,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import MySQLConnection.SignIn;
+import MySQLConnection.SignUp;
+import PreparingData.CurrentCreatingUser;
+
 
 /**
  * A login screen that offers login via email/password.
@@ -43,16 +46,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
+
+    private SignUpTask mAuthTask = null;
+    private SignInTask mAuthTaskLogin = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private TextView connectionErrorView;
+
+    public boolean connectionEstablish = true;
+    public boolean emailCorrect = true;
+    public boolean passwordCorrect = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +86,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                mAuthTaskLogin = new SignInTask();
                 attemptLogin();
+                mAuthTaskLogin.execute((Void) null);
+
             }
         });
 
@@ -89,10 +99,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         signUp.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
-                startActivity(browserIntent);
+                attemptLogin();
+                mAuthTask = new SignUpTask();
+                mAuthTask.execute((Void) null);
+
             }
         });
+
+        connectionErrorView = (TextView) findViewById(R.id.connection_error_view);
     }
 
     private void populateAutoComplete() {
@@ -100,19 +114,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
 
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
+
     public void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
+
 
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
+        connectionErrorView.setVisibility(View.GONE);
 
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
@@ -148,8 +157,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+
         }
     }
 
@@ -257,37 +265,24 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class SignUpTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+            new CurrentCreatingUser(mEmailView.getText().toString(),
+                    mPasswordView.getText().toString(), mEmailView.getText().toString() );
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
+            boolean success =  SignUp.ifCanCreateNewUser();
 
-            // TODO: register the new account here.
-            return true;
+            connectionEstablish = SignUp.connectionEstablish;
+            emailCorrect = SignUp.emailCorrect;
+            passwordCorrect = SignUp.passwordCorrect;
+
+            return success;
+
         }
 
         @Override
@@ -297,10 +292,72 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
             if (success) {
                 finish();
-            } else {
+                Intent tabHostActivity = new Intent(getApplicationContext(), TabHostActivity.class);
+                startActivity(tabHostActivity);
+            } else if (!connectionEstablish) {
+                connectionErrorView.setVisibility(View.VISIBLE);
+                System.out.println("Nie ma internetu");
+            }else if (!emailCorrect) {
+                System.out.println("Email zly!");
+                mEmailView.setError(getString(R.string.error_wrong_email));
+                mEmailView.requestFocus();
+            }else{
+                System.out.print("Zle haslo");
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+            showProgress(false);
+        }
+    }
+
+    public class SignInTask extends AsyncTask<Void, Void, Boolean> {
+
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+            new CurrentCreatingUser(mEmailView.getText().toString(),
+                    mPasswordView.getText().toString(), mEmailView.getText().toString() );
+
+            boolean success =  SignIn.ifCanSignIn();
+
+            connectionEstablish = SignUp.connectionEstablish;
+            emailCorrect = SignUp.emailCorrect;
+            passwordCorrect = SignUp.passwordCorrect;
+
+            return success;
+
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTaskLogin = null;
+            showProgress(false);
+
+            if (success) {
+                finish();
+                Intent tabHostActivity = new Intent(getApplicationContext(), TabHostActivity.class);
+                startActivity(tabHostActivity);
+            } else if (!connectionEstablish) {
+                connectionErrorView.setVisibility(View.VISIBLE);
+                System.out.println("Nie ma internetu");
+            }else if (!emailCorrect) {
+                System.out.println("Email zly!");
+                mEmailView.setError(getString(R.string.error_taken_email));
+                mEmailView.requestFocus();
+            }else{
+                System.out.print("Zle haslo");
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.requestFocus();
+            }
+
         }
 
         @Override

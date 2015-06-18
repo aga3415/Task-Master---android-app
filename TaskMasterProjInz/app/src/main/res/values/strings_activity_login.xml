@@ -9,7 +9,10 @@
     <string name="action_sign_in_short">Logowanie</string>
 
     <string name="error_invalid_email">Adres email jest nieprawidłowy</string>
+    <string name="error_taken_email">"Adres jest juz zarejestrowany w systemie"</string>
+    <string name="error_wrong_email">"Adres nie jest zarejestrowany w systemie. Zarejestruj się"</string>
     <string name="error_invalid_password">Hasło jest zbyt krótkie</string>
     <string name="error_incorrect_password">Hasło jest nieprawidłowe</string>
     <string name="error_field_required">Pole jest wymagane</string>
+    <string name="error_connection_establish">"Brak połaczenia z serwerem. \nSprawdź dostęp do sieci i spróbuj ponownie"</string>
 </resources>

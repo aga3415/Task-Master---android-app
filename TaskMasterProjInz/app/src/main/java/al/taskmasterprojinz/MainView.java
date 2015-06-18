@@ -60,8 +60,8 @@ public class MainView extends Menu {
         startActivity(login);
 
         /* otwieranie aktywnosci z lista zadan */
-        Intent tabHostActivity = new Intent(getApplicationContext(), TabHostActivity.class);
-        startActivity(tabHostActivity);
+        //Intent tabHostActivity = new Intent(getApplicationContext(), TabHostActivity.class);
+        //startActivity(tabHostActivity);
         //------------------------------------------------------------------------------------------
 
 

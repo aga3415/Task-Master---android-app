@@ -19,7 +19,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:minHeight="35dp"
-            android:text="@string/my_task_label_txt"
+            android:text="@string/my_tasks"
             android:textColor="@color/my_text"
             android:textStyle="bold"
             android:layout_marginLeft="15dp"

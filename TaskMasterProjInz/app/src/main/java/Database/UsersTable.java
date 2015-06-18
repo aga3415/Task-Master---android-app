@@ -23,6 +23,11 @@ public class UsersTable extends Table {
         super(db);
     }
 
+    public UsersTable(){
+        super();
+
+    }
+
     public void setAllInfoAboutTable(){
         this.nameOfTable = "USERS";
         id = new Column ("ID", "INTEGER PRIMARY KEY AUTOINCREMENT", 0);
