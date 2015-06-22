@@ -35,9 +35,41 @@ public class PrepareListGroupsAndUsers {
         DbAdapter db = DbAdapter.getInstance(context);
 
         //------------------
-        members = db.getAllMembers();
+        //members = db.getAllMembers();
+        Cursor groupsWhereUserIs = db.getAllMembersByUserId(CurrentCreatingUser.getInstance().getLogin());
 
-        if(members != null && members.moveToFirst()) {
+        if (groupsWhereUserIs != null && groupsWhereUserIs.moveToFirst()){
+            do{
+                long group_id = groupsWhereUserIs.getLong(0);
+
+                Cursor groups = db.getGroupById(group_id);
+                if (groups != null && groups.moveToFirst()){
+                    String group_name = groups.getString(1);
+                    Group newGroup = new Group(group_id, group_name);
+
+                    Cursor groupMembers = db.getAllMembersByGroupId(group_id);
+
+                    if (groupMembers != null && groupMembers.moveToFirst()){
+                        do{
+                            long id_group = groupMembers.getLong(0);
+                            String id_user = groupMembers.getString(1);
+                            String user_name = groupMembers.getString(2);
+
+                            MemberOfGroup member = new MemberOfGroup(id_user, id_group, user_name);
+                            usersList.add(member);
+
+                        }while (groupMembers.moveToNext());
+                        membersOfGroups.put(newGroup, usersList);
+                        usersList = new ArrayList<>();
+                    }
+
+                }
+
+            }while (groupsWhereUserIs.moveToNext());
+        }
+
+
+        /*if(members != null && members.moveToFirst()) {
             do {
                 long id_group = members.getLong(0);
                 String id_user = members.getString(1);
@@ -66,7 +98,7 @@ public class PrepareListGroupsAndUsers {
                 }
 
             } while(members.moveToNext());
-        }
+        }*/
 
 
         /* Sprawdzenie poprawnosci przekazywanych danych, jest ok!

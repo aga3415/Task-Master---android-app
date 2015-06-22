@@ -37,6 +37,10 @@ public class SignUp {
 
     public static boolean ifCanCreateNewUser() {
 
+        connectionEstablish = true;
+        emailCorrect = true;
+        passwordCorrect = true;
+
         newUser = CurrentCreatingUser.getInstance();
 
         if (newUser != null) {

@@ -52,7 +52,7 @@ public class PrepareTask {
         String convertedDate=dateFormat.format(cal.getTime());
         MyDate currentDateDateClass = new MyDate(convertedDate);*/
 
-        //Cursor todoCursor = db.getTasksTable().getAllTasks();
+        //Cursor todoCursor = db.getTasksTable().getAllMyTasks();
 
         Cursor todoCursor = /*db.getTasksForToday();//*/db.getAllTask();
         System.out.println("Pobieram wszystkie taski");

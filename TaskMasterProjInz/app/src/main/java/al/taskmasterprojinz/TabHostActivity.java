@@ -24,6 +24,10 @@ import java.util.Calendar;
 
 import DataModel.MyDate;
 import Database.DbAdapter;
+import MySQLConnection.DeleteAllMyCompletedSendedTasks;
+import MySQLConnection.DeleteAllMyCompletedTasks;
+import MySQLConnection.DeleteAllMySendedTasks;
+import MySQLConnection.DeleteAllMyTasks;
 import PreparingData.CurrentCreatingTask;
 
 
@@ -45,6 +49,9 @@ public class TabHostActivity extends al.taskmasterprojinz.Menu {
         res = getResources();
         setTitle(res.getString(R.string.task_list_label));
         initUIElements();
+
+        //DbAdapter db = DbAdapter.getInstance(getApplicationContext());
+        //db.refresh();
 
         // create the TabHost that will contain the Tabs
         tabHost = (TabHost)findViewById(android.R.id.tabhost);
@@ -226,25 +233,59 @@ public class TabHostActivity extends al.taskmasterprojinz.Menu {
     public void function1(int id){
         Toast.makeText(this, res.getString(R.string.removed_completed_task), Toast.LENGTH_SHORT).show();
         DbAdapter db = DbAdapter.getInstance(getApplicationContext());
-        db.deleteCompletedTasks();
-        //tabHost.clearAllTabs();
-        //initStandardTab();
+
         int current = tabHost.getCurrentTab();
+        if (current == 0){
+            db.deleteCompletedTasks();
+            DeleteAllMyCompletedTasks deleteAllMyCompletedTasks = new DeleteAllMyCompletedTasks();
+            deleteAllMyCompletedTasks.execute();
+        }else if (current == 1){
+            db.deleteAllCompletedSendedTasks();
+            DeleteAllMyCompletedSendedTasks deleteAllMyCompletedSendedTasks = new DeleteAllMyCompletedSendedTasks();
+            deleteAllMyCompletedSendedTasks.execute();
+            Intent refreshData = new Intent(getApplicationContext(), RefreshingActivity.class);
+            startActivity(refreshData);
+
+        }else {
+            db.deleteAllCompletedGroupedTasks();
+            //do zaimplementowania usuwanie taskow grupowych
+        }
+
         for (int i =0; i <3; i++){
             tabHost.setCurrentTab(i);
             onRestart();
         }
+        onRestart();
         tabHost.setCurrentTab(current);
 
 
-        //initList();
-        //listAdapter.notifyDataSetChanged();
     }
     public void function2(int id){
         Toast.makeText(this, res.getString(R.string.removed_all_task), Toast.LENGTH_SHORT).show();
         DbAdapter db = DbAdapter.getInstance(getApplicationContext());
-        db.deleteAllTasks();
+
         int current = tabHost.getCurrentTab();
+
+        if (current == 0){
+            db.deleteAllTasks();
+            DeleteAllMyTasks deleteAllMyTasks = new DeleteAllMyTasks();
+            deleteAllMyTasks.execute();
+        }else if (current == 1){
+            db.deleteAllSendedTasks();
+            DeleteAllMySendedTasks deleteAllMySendedTasks = new DeleteAllMySendedTasks();
+            deleteAllMySendedTasks.execute();
+            Intent refreshData = new Intent(getApplicationContext(), RefreshingActivity.class);
+            startActivity(refreshData);
+
+        }else {
+            db.deleteAllGroupedTasks();
+            //do zaimplementowania usuwanie taskow grupowych
+        }db.deleteAllTasks();
+
+        DeleteAllMyTasks deleteAllMyTasks = new DeleteAllMyTasks();
+        deleteAllMyTasks.execute();
+
+
         for (int i =0; i <3; i++){
             tabHost.setCurrentTab(i);
             onRestart();

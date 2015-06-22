@@ -76,6 +76,8 @@ public class Menu extends ActionBarActivity {
 
 
     public void synchronize(){
+        Intent refresh = new Intent(getApplicationContext(), RefreshingActivity.class);
+        startActivity(refresh);
 
     }
     public void settings(){

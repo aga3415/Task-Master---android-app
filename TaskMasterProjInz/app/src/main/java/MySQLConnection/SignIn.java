@@ -26,6 +26,9 @@ public class SignIn {
     public static boolean ifCanSignIn() {
 
         newUser = CurrentCreatingUser.getInstance();
+        connectionEstablish = true;
+        emailCorrect = true;
+        passwordCorrect = true;
 
         if (newUser != null) {
             con = EstablishDBConnection.getConnection();

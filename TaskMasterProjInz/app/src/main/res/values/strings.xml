@@ -5,6 +5,8 @@
     <string name="please_send_info">"Pómóż nam udoskonalić aplikację, prześlij swoją opinię!</string>
     <string name="send">"Wyślij"</string>
 
+    <string name="refreshing">"Proszę czekać, trwa aktualizacja danych..."</string>
+
 
 
     <string name="action_settings">Ustawienia</string>
@@ -26,6 +28,7 @@
     <string name="title_activity_tab_host">TabHost</string>
     <string name="title_activity_groups_view">Grupy</string>
     <string name="title_activity_add_group">AddGroup</string>
+    <string name="title_activity_edit_group">EditGroup</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_choose_task_executor">ChooseTaskExecutor</string>

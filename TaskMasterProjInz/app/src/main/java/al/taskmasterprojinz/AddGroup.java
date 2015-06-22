@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import PreparingData.CurrentCreatingGroup;
+import PreparingData.CurrentCreatingUser;
 import PreparingViewsAdapter.UsersListAdapter;
 
 
@@ -81,6 +82,7 @@ public class AddGroup extends Activity {
         user_email = (EditText) findViewById(R.id.add_user_email_txt);
         title_users_list = (TextView) findViewById(R.id.title_user_list_txt);
 
+
         group = CurrentCreatingGroup.getInstance(getApplicationContext());
         listAdapter = new UsersListAdapter(getApplicationContext(),this);
 
@@ -131,10 +133,7 @@ public class AddGroup extends Activity {
             group.saveCreatedGroup();
             //najpierw dodanie grupy
             //potem wyczyszczenie danych
-            group.clearCreatingGroup();
-            user_email.setText("");
-            user_name.setText("");
-            group_name.setText("");
+
             onBackPressed();
         }
 
@@ -194,8 +193,12 @@ public class AddGroup extends Activity {
         listAdapter.notifyDataSetChanged();
         if (group.usersName.isEmpty()){
             title_users_list.setVisibility(View.GONE);
+            listOfUsers.setVisibility(View.GONE);
+            group.users.put(CurrentCreatingUser.getInstance().getLogin(), CurrentCreatingUser.getInstance().getEmail());
+            group.usersName.add(CurrentCreatingUser.getInstance().getLogin());
         }else{
             title_users_list.setVisibility(View.VISIBLE);
+            listOfUsers.setVisibility(View.VISIBLE);
         }
     }
 

@@ -72,6 +72,7 @@ public class DbAdapter {
     private DbAdapter(Context context) {
         this.context = context;
 
+
         tables = new ArrayList<Table>();
 
         usersTable = new UsersTable(db);
@@ -85,6 +86,7 @@ public class DbAdapter {
         tables.add(membersOfGroupTable);
         tables.add(aimsTable);
         tables.add(tasksTable);
+        open();
 
 
         //DbAdapter jest singletonem, chemy mieć tylko jedna jego instancje,
@@ -137,6 +139,10 @@ public class DbAdapter {
         return tasksTable.update(task,db);
     }
 
+    public void updateTaskId(long id, Task task){
+        tasksTable.updateIdTask(db, id, task);
+    }
+
     public Cursor getTasksForGivenDate(MyDate date){
         return tasksTable.getTasksForGivenDate(db, date);
     }
@@ -144,6 +150,10 @@ public class DbAdapter {
     public boolean deleteCompletedTasks(){
         return tasksTable.deleteCompletedTasks(db);
     }
+    public boolean deleteAllGroupedTasks(){ return tasksTable.deleteAllGroupedTasks(db);}
+    public boolean deleteAllSendedTasks(){return tasksTable.deleteAllSendedTasks(db);}
+    public boolean deleteAllCompletedSendedTasks(){return tasksTable.deleteAllCompletedSendedTasks(db);}
+    public boolean deleteAllCompletedGroupedTasks(){return tasksTable.deleteAllCompletedGroupedTasks(db);}
 
     public boolean deleteAllTasks(){
         return tasksTable.deleteAllTasks(db);
@@ -155,23 +165,21 @@ public class DbAdapter {
     public boolean deleteMemberOfGroup(MemberOfGroup member){
         return membersOfGroupTable.delete(db, member);
     }
+    public boolean deleteAllMembers(){
+        return membersOfGroupTable.deleteAll(db);
+    }
 
     public Cursor getAllMembers(){
         return membersOfGroupTable.getAllMembers(db);
     }
+    public Cursor getAllMembersByUserId(String id) {return membersOfGroupTable.getMemberByUserId(db, id);}
+    public Cursor getAllMembersByGroupId(Long id) {return membersOfGroupTable.getMembersByGroupId(db, id);}
 
-    public Cursor getMembers(){
-        String statement = "SELECT Groups.name, Users.login " +
-                        "FROM MembersOfGroup" +
-                        "LEFT JOIN Groups ON MembersOfGroup.id_group = Groups.id" +
-                        "LEFT JOIN Users ON MembersOfGroups.id_user = Users.id";
-
-        return db.rawQuery(statement, null);
-    }
 
     public long insertGroup(String name){
         return groupsTable.insert(db, name);
     }
+    public void insertGroup(Group group) { groupsTable.insert(db, group);}
 
     public Cursor getGroupById(long id) {
         return groupsTable.getGroupById(db, id);
@@ -180,6 +188,8 @@ public class DbAdapter {
     public void deleteGroup(Group group){
         groupsTable.delete(db, group);
     }
+    public void deleteAllGroups(){groupsTable.deleteAllGroups(db);}
+    public void updateIdGroup(long id, String name){groupsTable.updateIdGroup(db, id, name);}
 
     public void insertUser(User user){
         usersTable.insert(db,user);
@@ -201,7 +211,7 @@ public class DbAdapter {
     }
 
     public Cursor getMemberById(String id){
-        return membersOfGroupTable.getMemberById(db, id);
+        return membersOfGroupTable.getMemberByUserId(db, id);
     }
 
     public Cursor getGroupedTasks(){

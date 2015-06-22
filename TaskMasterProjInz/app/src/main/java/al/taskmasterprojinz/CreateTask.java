@@ -21,6 +21,7 @@ import java.util.Calendar;
 import DataModel.MyDate;
 import Database.DbAdapter;
 import PreparingData.CurrentCreatingTask;
+import PreparingData.CurrentCreatingUser;
 
 
 public class CreateTask extends Activity {
@@ -67,6 +68,7 @@ public class CreateTask extends Activity {
         txt_points = (TextView) findViewById(R.id.points_txt);
         txt_priority = (TextView) findViewById(R.id.priority_txt);
 
+
         initOnClickListeners();
 
     }
@@ -94,6 +96,8 @@ public class CreateTask extends Activity {
                         chooseExecutor();
                         defaultListener();
                         break;
+                    case R.id.priority_layout:
+                        priorityListener();
                     default :
                         //zaimplementowane domyślnie
                         defaultListener();
@@ -160,6 +164,17 @@ public class CreateTask extends Activity {
 
     }
 
+    public void priorityListener(){
+        if (newTask.getPriority() == 0) {
+            newTask.setPriority(1);
+            txt_priority.setText(res.getString(R.string.prioritySeted));
+        }else{
+            newTask.setPriority(0);
+            txt_priority.setText(res.getString(R.string.priority));
+        }
+
+    }
+
     public void defaultListener(){
         description.setError(null);
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -181,8 +196,14 @@ public class CreateTask extends Activity {
         //txt_executor.setText("Group_id: " + newTask.getId_group() +" User :" + newTask.getId_executor());
         if (newTask.getId_group() != 0 ){
             txt_executor.setText(res.getString(R.string.choosen_executor)+ res.getString(R.string.choosen_group_name) + newTask.getGroup_name(getApplicationContext()) );
-        }else if (newTask.getId_executor() != null) {
+        }else if (newTask.getId_executor() != null && !newTask.getId_executor().equals(CurrentCreatingUser.getInstance().getLogin())) {
             txt_executor.setText(res.getString(R.string.choosen_executor) + res.getString(R.string.choosen_user_name) + newTask.getUser_executor_name(getApplicationContext()));
+        }
+
+        if (newTask.getPriority() != 0) {
+            txt_priority.setText(res.getString(R.string.prioritySeted));
+        }else{
+            txt_priority.setText(res.getString(R.string.priority));
         }
 
     }

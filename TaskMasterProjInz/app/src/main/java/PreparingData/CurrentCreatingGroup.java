@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import DataModel.Group;
 import DataModel.MemberOfGroup;
 import Database.DbAdapter;
+import MySQLConnection.AddNewGroup;
+import MySQLConnection.DeleteGroup;
 
 /**
  * Created by Agnieszka on 2015-05-26.
@@ -17,6 +20,8 @@ public class CurrentCreatingGroup {
     public static List<String> usersName;
     public static String nameOfGroup;
     static CurrentCreatingGroup instance;
+    public static Group oldGroup;
+    public static List<MemberOfGroup> oldGroupMemberlist;
     Context context;
     DbAdapter db;
 
@@ -36,6 +41,8 @@ public class CurrentCreatingGroup {
         users.clear();
         usersName.clear();
         nameOfGroup = "";
+        oldGroup = null;
+        oldGroupMemberlist = new ArrayList<>();
     }
 
     public static boolean isEmailExistOnList(String email){
@@ -48,15 +55,39 @@ public class CurrentCreatingGroup {
 
     public void saveCreatedGroup(){
 
+        AddNewGroup addNewGroup = new AddNewGroup(context);
+        addNewGroup.execute();
+
         long id_group = db.insertGroup(nameOfGroup);
         //long id_group = db.getGroupIdByName(nameOfGroup);
         for (String names : usersName){
             MemberOfGroup newMember = new MemberOfGroup(users.get((String) names), id_group, names);
             db.insertMemberOfGroup(newMember);
         }
+
     }
 
     public boolean isUniqueNameOfGroup(String name){
         return db.ifExistGroupWithName(name);
+    }
+
+    public void getListOfUsers(List<MemberOfGroup> list) {
+        oldGroupMemberlist = list;
+        for (MemberOfGroup member : list) {
+            users.put(member.getName(), member.getId_user());
+            usersName.add(member.getName());
+        }
+    }
+
+    public void deleteOldGroup(){
+
+        db.deleteGroup(oldGroup);
+        for (MemberOfGroup member : oldGroupMemberlist){
+            db.deleteMemberOfGroup(member);
+        }
+        DeleteGroup delete = new DeleteGroup(context);
+        delete.execute(oldGroup);
+
+
     }
 }

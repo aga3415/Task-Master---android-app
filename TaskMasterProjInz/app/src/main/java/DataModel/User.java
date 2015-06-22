@@ -31,6 +31,10 @@ public class User {
         this.email = email;
     }
 
+    public User(){
+
+    }
+
     public void setId(int id) {
         this.id = id;
     }

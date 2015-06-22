@@ -19,6 +19,9 @@ public class GroupsTable extends Table {
     public GroupsTable(SQLiteDatabase db) {
         super(db);
     }
+    public GroupsTable(){
+        super();
+    }
 
     public void setAllInfoAboutTable(){
         this.nameOfTable = "GROUPS";
@@ -36,9 +39,32 @@ public class GroupsTable extends Table {
         return db.insert(nameOfTable, null, newGroup);
     }
 
+    public void insert(SQLiteDatabase db, Group group){
+        ContentValues newGroup = new ContentValues();
+        newGroup.put(listOfColumns.get(0).name, group.getId());
+        newGroup.put(listOfColumns.get(1).name, group.getName());
+        db.insert(nameOfTable, null, newGroup);
+    }
+
     public void delete(SQLiteDatabase db, Group group){
         String where = listOfColumns.get(0).name + "=" + group.getId();
         db.delete(nameOfTable, where, null);
+    }
+
+    public void updateIdGroup(SQLiteDatabase db, long id, String name){
+        String where = listOfColumns.get(1).name + " = '" + name + "'";
+        db.delete(nameOfTable, where, null);
+        ContentValues newGroup = new ContentValues();
+        newGroup.put(listOfColumns.get(0).name, id);
+        newGroup.put(listOfColumns.get(1).name, name);
+        db.insert(nameOfTable, null, newGroup);
+    }
+
+    public void deleteAllGroups(SQLiteDatabase db){
+        if (db == null) { System.out.println("Nullem jest : db");}
+        if ( nameOfTable == null) { System.out.println("Nullem jest: nameOfTable");}
+        System.out.println("Usuwam wszystkie grupy");
+        db.delete(nameOfTable, null, null);
     }
 
     public Cursor getGroupById(SQLiteDatabase db, long id){

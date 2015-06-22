@@ -10,6 +10,7 @@ import java.util.List;
 
 import DataModel.MyDate;
 import DataModel.Task;
+import PreparingData.CurrentCreatingUser;
 
 /**
  * Created by Agnieszka on 2015-05-02.
@@ -25,10 +26,11 @@ public class TasksTable extends Table{
     public TasksTable(SQLiteDatabase db) {
         super(db);
     }
+    public TasksTable(){ super();}
 
     public void setAllInfoAboutTable(){
         this.nameOfTable = "TASKS";
-        id = new Column ("ID", "INTEGER PRIMARY KEY AUTOINCREMENT", 0);
+        id = new Column ("ID", "INTEGER", 0);
         id_parent = new Column("ID_PARENT", "INTEGER REFERENCES TASKS(ID) ON DELETE CASCADE", 1);
         description = new Column("DESCRIPTION", "TEXT NOT NULL", 2);
         priority = new Column("PRIORITY", "INTEGER", 3);
@@ -62,6 +64,7 @@ public class TasksTable extends Table{
 
     public long insert(Task task, SQLiteDatabase db){
         ContentValues newTask = new ContentValues();
+        newTask.put(listOfColumns.get(0).name, task.getId());
         newTask.put(listOfColumns.get(1).name, task.getId_parent());
         newTask.put(listOfColumns.get(2).name, task.getDescription());
         newTask.put(listOfColumns.get(3).name, task.getPriority());
@@ -82,18 +85,42 @@ public class TasksTable extends Table{
     }
 
     public boolean delete(long id, SQLiteDatabase db){
+        System.out.println("Usuwam zadanie ");
         String where = listOfColumns.get(0).name + "=" + id;
         return db.delete(nameOfTable, where, null) > 0;
     }
 
     public boolean deleteCompletedTasks(SQLiteDatabase db){
-        String where = listOfColumns.get(7).name + "!=" + "''";
+        String where = listOfColumns.get(7).name + "!=" + "'' AND " +
+                listOfColumns.get(11).name + " = '" + CurrentCreatingUser.getInstance().getLogin() + "'";
         return db.delete(nameOfTable, where, null) > 0;
     }
 
     public boolean deleteAllTasks(SQLiteDatabase db){
-        //String where = listOfColumns.get(7).name + "!=" + "''";
-        return db.delete(nameOfTable, null, null) > 0;
+        String where = listOfColumns.get(11).name + " = '" + CurrentCreatingUser.getInstance().getLogin() + "'";
+        return db.delete(nameOfTable, where, null) > 0;
+    }
+
+    public boolean deleteAllSendedTasks(SQLiteDatabase db){
+        String where = listOfColumns.get(12).name + " = '" + CurrentCreatingUser.getInstance().getLogin() + "'";
+        return db.delete(nameOfTable, where, null) > 0;
+    }
+
+    public boolean deleteAllGroupedTasks(SQLiteDatabase db){
+        String where = listOfColumns.get(10).name + " <>0 ";
+        return db.delete(nameOfTable, where, null) > 0;
+    }
+
+    public boolean deleteAllCompletedSendedTasks(SQLiteDatabase db){
+        String where = listOfColumns.get(12).name + " = '" + CurrentCreatingUser.getInstance().getLogin() + "' AND " +
+                listOfColumns.get(7).name + "!=" + "''";
+        return db.delete(nameOfTable, where, null) > 0;
+    }
+
+    public boolean deleteAllCompletedGroupedTasks(SQLiteDatabase db){
+        String where = listOfColumns.get(10).name + " <>0 AND " +
+                listOfColumns.get(7).name + "!=" + "''";
+        return db.delete(nameOfTable, where, null) > 0;
     }
 
     public boolean update(Task task, SQLiteDatabase db) {
@@ -119,9 +146,35 @@ public class TasksTable extends Table{
         //metoda db.update zwraca liczbe zmienionych pól
     }
 
+    public void updateIdTask(SQLiteDatabase db, long id, Task task){
+        String where = this.getListOfColumns().get(2).name + " = " + "'" + task.getDescription() + "' AND " +
+                this.getListOfColumns().get(3).name +   "= " + task.getPriority() + " AND " +
+                this.getListOfColumns().get(4).name + " = '" + task.getDate_insert().getDateString() + "' AND " +
+                this.getListOfColumns().get(11).name + " ='" + task.getId_executor() + "'";
+
+        ContentValues newTask = new ContentValues();
+        newTask.put(listOfColumns.get(0).name, id);
+        newTask.put(listOfColumns.get(1).name, task.getId_parent());
+        newTask.put(listOfColumns.get(2).name, task.getDescription());
+        newTask.put(listOfColumns.get(3).name, task.getPriority());
+        newTask.put(listOfColumns.get(4).name, task.getDate_insert().getDateString());
+        newTask.put(listOfColumns.get(5).name, task.getDate_update().getDateString());
+        newTask.put(listOfColumns.get(6).name, task.getDate_plan_exec().getDateString());
+        newTask.put(listOfColumns.get(7).name, task.getDate_exec().getDateString());
+        newTask.put(listOfColumns.get(8).name, task.getDate_archive().getDateString());
+        newTask.put(listOfColumns.get(9).name, task.getCycle_time());
+        newTask.put(listOfColumns.get(10).name, task.getId_group());
+        newTask.put(listOfColumns.get(11).name, task.getId_executor());
+        newTask.put(listOfColumns.get(12).name, task.getId_principal());
+        newTask.put(listOfColumns.get(13).name, task.getPoints());
+
+        db.update(nameOfTable, newTask, where, null);
+    }
+
     public Cursor getAllTasks(SQLiteDatabase db) {
         List<String> colNames = new ArrayList<String>();
-        String where = listOfColumns.get(10).name + " =0 AND " + listOfColumns.get(11).name + " IS NULL";
+        String where = listOfColumns.get(10).name + " =0 AND " + listOfColumns.get(11).name + " ='"+
+                CurrentCreatingUser.getInstance().getLogin() + "'";
         for (Column c : listOfColumns){
             colNames.add(c.name);
         }
@@ -178,7 +231,7 @@ public class TasksTable extends Table{
 
     public Cursor getSendedTasks(SQLiteDatabase db) {
         List<String> colNames = new ArrayList<String>();
-        String where = listOfColumns.get(11).name + " IS NOT NULL";
+        String where = listOfColumns.get(12).name + "='" + CurrentCreatingUser.getInstance().getEmail() + "'";
         for (Column c : listOfColumns){
             colNames.add(c.name);
         }

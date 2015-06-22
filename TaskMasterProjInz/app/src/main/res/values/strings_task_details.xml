@@ -21,6 +21,7 @@
 
     <string name="add_new_task_txt">"Dodano nowe zadanie"</string>
     <string name="edit_task_txt">"Zapisano zmiany w zadaniu"</string>
+    <string name="prioritySeted">"Zadanie priorytetowe"</string>
 
     <string name="choosen_executor">"Wykonawca: "</string>
     <string name="choosen_group_name">"grupa "</string>

@@ -22,6 +22,9 @@ import java.util.List;
 import DataModel.Group;
 import DataModel.MemberOfGroup;
 import Database.DbAdapter;
+import PreparingData.CurrentCreatingGroup;
+import al.taskmasterprojinz.AddGroup;
+import al.taskmasterprojinz.EditGroup;
 import al.taskmasterprojinz.R;
 
 /**
@@ -91,23 +94,7 @@ public class ExpandableGroupsListAdapter extends BaseExpandableListAdapter {
 
         final TextView txtListChild = (TextView) convertView.findViewById(R.id.users_name);
         txtListChild.setText(childText);
-        //txtListChild.setOnClickListener(new View.OnClickListener() {
-            //@Override
-            //public void onClick(View v) {
-                /*Task task = getTask(groupPosition,childPosition);
-                if (task.getDate_exec().isEmpty()) {
-                    task.setDate_exec(date);
-                    task.setDate_update(date);
-                }else{
-                    task.setDate_exec(new MyDate());
-                    task.setDate_update(date);
-                }
-                DbAdapter db = DbAdapter.getInstance(context);
-                db.update(task);
-                instance.notifyDataSetChanged();
-*/
-        //    }
-        //});
+
 
         ImageButton delete = (ImageButton) convertView.findViewById((R.id.delete_button));
         delete.setOnClickListener(new View.OnClickListener() {
@@ -150,16 +137,30 @@ public class ExpandableGroupsListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded,
+    public View getGroupView(final int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
         String headerTitle = (String) getGroup(groupPosition).getName();
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.header_task_list, null);
+            convertView = infalInflater.inflate(R.layout.group_header, null);
         }
 
         TextView lblListHeader = (TextView) convertView.findViewById(R.id.task_list_header_title);
+        ImageButton edit = (ImageButton) convertView.findViewById(R.id.edit_task_button);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CurrentCreatingGroup.getInstance(context).clearCreatingGroup();
+                CurrentCreatingGroup.getInstance(context).nameOfGroup = getGroup(groupPosition).getName();
+                CurrentCreatingGroup.getInstance(context).oldGroup = getGroup(groupPosition);
+                CurrentCreatingGroup.getInstance(context).getListOfUsers(listChildData.get(getGroup(groupPosition)));
+
+                Intent editGroup = new Intent(context, EditGroup.class);
+                editGroup.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(editGroup);
+            }
+        });
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
 

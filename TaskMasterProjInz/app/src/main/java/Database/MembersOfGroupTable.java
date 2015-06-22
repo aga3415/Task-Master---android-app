@@ -19,6 +19,7 @@ public class MembersOfGroupTable extends Table {
     public MembersOfGroupTable(SQLiteDatabase db) {
         super(db);
     }
+    public MembersOfGroupTable() {super();}
 
     public void setAllInfoAboutTable(){
         this.nameOfTable = "MEMBERSOFGROUPS";
@@ -37,6 +38,11 @@ public class MembersOfGroupTable extends Table {
         String where = listOfColumns.get(0).name + "=" + member.getId_group() + " AND "
                 + listOfColumns.get(1).name + "= '" + member.getId_user() + "'";
         return db.delete(nameOfTable, where, null) > 0;
+    }
+
+    public boolean deleteAll(SQLiteDatabase db){
+        System.out.println("Usuwam wszystkich membersow");
+        return db.delete(nameOfTable, null, null) > 0;
     }
 
     public Cursor getAllMembers(SQLiteDatabase db) {
@@ -59,9 +65,19 @@ public class MembersOfGroupTable extends Table {
         db.insert(nameOfTable, null, newMember);
     }
 
-    public Cursor getMemberById(SQLiteDatabase db, String id) {
+    public Cursor getMemberByUserId(SQLiteDatabase db, String id) {
         List<String> colNames = new ArrayList<String>();
         String where = listOfColumns.get(1).name + "= '" + id + "'";
+        for (Column c : listOfColumns) {
+            colNames.add(c.name);
+        }
+        String[] columns = colNames.toArray(new String[colNames.size()]);
+        return db.query(nameOfTable, columns, where, null, null, null, null);
+    }
+
+    public Cursor getMembersByGroupId(SQLiteDatabase db, Long id) {
+        List<String> colNames = new ArrayList<String>();
+        String where = listOfColumns.get(0).name + "= " + id.toString();
         for (Column c : listOfColumns) {
             colNames.add(c.name);
         }

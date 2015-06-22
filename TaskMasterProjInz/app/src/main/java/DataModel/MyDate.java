@@ -23,18 +23,26 @@ public class MyDate {
     }
 
     public MyDate(String date/*"yyyy-mm-dd"*/){
-        if (date.length() < 9) {
+        if (date == null){
             this.day = 0;
             this.month = 0;
             this.year = 0;
-        }else {
-            this.year = Integer.parseInt(date.substring(0, 4));
-            //System.out.println("year "+year);
-            this.month = Integer.parseInt(date.substring(5,7));
-            //System.out.println("month "+month);
-            this.day = Integer.parseInt(date.substring(8,10));
-            //System.out.println("day "+day);
+
+        }else{
+            if (date.length() < 9) {
+                this.day = 0;
+                this.month = 0;
+                this.year = 0;
+            }else {
+                this.year = Integer.parseInt(date.substring(0, 4));
+                //System.out.println("year "+year);
+                this.month = Integer.parseInt(date.substring(5,7));
+                //System.out.println("month "+month);
+                this.day = Integer.parseInt(date.substring(8,10));
+                //System.out.println("day "+day);
+            }
         }
+
 
     }
     public boolean isEmpty(){

@@ -2,6 +2,7 @@
 <resources>
 
     <string name="add_group_label">"Utwórz grupę"</string>
+    <string name="edit_group_label">"Edytuj grupę"</string>
     <string name="add_group_hint">"Wpisz nazwę grupy"</string>
     <string name="add_users_text">"Dodaj użytkownika</string>
     <string name="add_users_email">"Adres email użytkownika"</string>
@@ -15,4 +16,7 @@
     <string name="unique_name_error">"Użytkownik jest już członkiem grupy"</string>
     <string name="unique_email_error">"Użytkownik o podanym adresie email jest już członkiem grupy"</string>
     <string name="unique_group_name">"Nazwa grupy musi być unikalna"</string>
+
+    <string name="remove_groups">"Usuń wszystkie grupy"</string>
+    <string name="removed_all_groups">"Usunięto wszystkie grupy"</string>
 </resources>

@@ -1,11 +1,14 @@
 package PreparingData;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 
 import DataModel.MyDate;
 import DataModel.Task;
 import Database.DbAdapter;
+import MySQLConnection.SaveCreatedTask;
+import al.taskmasterprojinz.RefreshingActivity;
 
 /**
  * Created by Agnieszka on 2015-05-09.
@@ -37,9 +40,22 @@ public class CurrentCreatingTask extends Task{
     }
 
     public void saveTask(Context context){
+        if (id_executor == null) {
+            id_executor = CurrentCreatingUser.getInstance().getLogin();
+        }else{
+            id_principal = CurrentCreatingUser.getInstance().getLogin();
+        }
+
         db = DbAdapter.getInstance(context);
         db.insert(this);
+
+        SaveCreatedTask save = new SaveCreatedTask(context);
+        System.out.println("Sklonowany task: " +  cloneTask().getDescription());
+        save.execute(cloneTask());
+
         this.cancelTask();
+
+
 
     }
 
@@ -66,6 +82,12 @@ public class CurrentCreatingTask extends Task{
         this.points = task.getPoints();
     }
 
+    public Task cloneTask(){
+        return new Task(id, id_parent, description, priority, date_insert, date_update,
+                    date_plan_exec, date_exec, date_archive, cycle_time, id_group,
+                    id_executor, id_principal, points);
+    }
+
     public void setGroup_name(Context context){
         DbAdapter db = DbAdapter.getInstance(context);
         Cursor cursor = db.getGroupById(id_group);
@@ -86,6 +108,7 @@ public class CurrentCreatingTask extends Task{
         /*if (cursor.getCount() > 0)*/ user_executor_name = cursor.getString(2);//getString(2);
     }
     public String getUser_executor_name(Context context){
+        if (id_executor.equals(CurrentCreatingUser.getInstance().getLogin())) return "Ty";
         setUser_executor_name(context);
         return user_executor_name;
     }

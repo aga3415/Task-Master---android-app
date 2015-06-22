@@ -28,6 +28,8 @@ import DataModel.MemberOfGroup;
 import DataModel.MyDate;
 import DataModel.Task;
 import Database.DbAdapter;
+import MySQLConnection.DeleteTask;
+import MySQLConnection.UpdateTask;
 import PreparingData.CurrentCreatingTask;
 import al.taskmasterprojinz.EditTask;
 import al.taskmasterprojinz.R;
@@ -135,6 +137,11 @@ public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
                 .get(childPosititon).isLate(date);
     }
 
+    public boolean isImportant(int groupPosition, int childPosititon) {
+        return this.listDataChild.get(this.listDataHeader.get(groupPosition))
+                .get(childPosititon).getPriority() > 0;
+    }
+
 
         @Override
     public long getChildId(int groupPosition, int childPosition) {
@@ -168,6 +175,9 @@ public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
                 }
                 DbAdapter db = DbAdapter.getInstance(context);
                 db.update(task);
+                UpdateTask update = new UpdateTask(context);
+                update.execute(task);
+                System.out.println("Przekreslam task");
                 /*if (instance != null) instance.*/notifyDataSetChanged();
                 //if(instance2 != null) instance2.notifyDataSetChanged();
 
@@ -189,13 +199,17 @@ public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
         delete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                DbAdapter db = DbAdapter.getInstance(context);
                 Task toDelete = getTask(groupPosition,childPosition);
+                DbAdapter db = DbAdapter.getInstance(context);
                 db.deleteTask(toDelete.getId());
+                DeleteTask deleteTask = new DeleteTask(context);
+                System.out.println("Zadanie do usuniecia z id: " + toDelete.getId());
+                deleteTask.execute(toDelete.getId());
+
                 //Toast.makeText(context, "Usunięto zadanie", Toast.LENGTH_LONG);
                 listDataChild.get(getGroup(groupPosition)).remove(toDelete);
                 /*if (instance != null) instance.*/notifyDataSetChanged();
-                //if(instance2 != null) instance2.notifyDataSetChanged();
+
 
             }
         });
@@ -222,6 +236,13 @@ public class ExpandableTaskListAdapter extends BaseExpandableListAdapter {
         }
         //------------------------------------------------------------------------------------------
 
+        //--------pogrubione taski priorytetowe-----------------------------------------------------
+        if (isImportant(groupPosition,childPosition)){
+            txtListChild.setTypeface(null, Typeface.BOLD);
+        }else{
+            txtListChild.setTypeface(null, Typeface.NORMAL);
+        }
+        //------------------------------------------------------------------------------------------
         return convertView;
     }
 

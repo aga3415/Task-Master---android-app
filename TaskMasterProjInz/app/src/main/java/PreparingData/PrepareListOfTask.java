@@ -198,22 +198,22 @@ public class PrepareListOfTask {
                         date_exec, date_archive, cycle_time, id_group, id_executor, id_principal, points);
 
                 Cursor groupCursor = db.getGroupById(id_group);
-                groupCursor.moveToFirst();
-                Group groupModel = new Group(groupCursor.getLong(0), groupCursor.getString(1));
+                if(groupCursor != null && groupCursor.moveToFirst()){
+                    Group groupModel = new Group(groupCursor.getLong(0), groupCursor.getString(1));
 
-                if (tasksList.containsKey(groupModel)){
-                    ArrayList<Task> pom = (ArrayList<Task>) tasksList.get(groupModel);
-                    pom.add(task);
-                    tasksList.remove(groupModel);
-                    tasksList.put(groupModel, pom);
-                }else{
-                    ArrayList<Task> mog = new ArrayList<Task>();
-                    mog.add(task);
-                    tasksList.put(groupModel, mog);
+                    if (tasksList.containsKey(groupModel)){
+                        ArrayList<Task> pom = (ArrayList<Task>) tasksList.get(groupModel);
+                        pom.add(task);
+                        tasksList.remove(groupModel);
+                        tasksList.put(groupModel, pom);
+                    }else{
+                        ArrayList<Task> mog = new ArrayList<Task>();
+                        mog.add(task);
+                        tasksList.put(groupModel, mog);
 
-                    //membersOfGroups.get(groupModel) = membersOfGroups.get(groupModel).add(member);
+                        //membersOfGroups.get(groupModel) = membersOfGroups.get(groupModel).add(member);
 
-                }
+                    }
                 /*if (MyDate.isEqual(date_plan_exec, today) || MyDate.aEarlierThanB(date_plan_exec,today)){
                     tasksForToday.add(task);
                 } else if (MyDate.isEqual(date_plan_exec, tomorrow)){
@@ -221,6 +221,10 @@ public class PrepareListOfTask {
                 }else{
                     restOfTask.add(task);
                 }*/
+                };
+
+
+
 
             } while(todoCursor.moveToNext());
         }
@@ -357,7 +361,7 @@ public class PrepareListOfTask {
                 Task task = new Task(id, id_parent, description, priority, date_insert, date_update, date_plan_exec,
                         date_exec, date_archive, cycle_time, id_group, id_executor, id_principal, points);
 
-                Cursor groupCursor = db.getAllMembers();
+                Cursor groupCursor = db.getMemberById(id_executor);
                 groupCursor.moveToFirst();
                 MemberOfGroup member = new MemberOfGroup(groupCursor.getString(1), groupCursor.getLong(0), groupCursor.getString(2));
 

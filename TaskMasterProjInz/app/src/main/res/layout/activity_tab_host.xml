@@ -53,7 +53,8 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/calendar"
                     style="@android:style/Holo.ButtonBar"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:visibility="invisible"/>
 
                 <ImageButton
                     android:id="@+id/delete_button"

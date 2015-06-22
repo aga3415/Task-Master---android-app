@@ -19,7 +19,15 @@ public class CurrentCreatingUser extends User {
         instance = this;
     }
 
+    private CurrentCreatingUser(){
+        super();
+    }
+
     public static CurrentCreatingUser getInstance(){
         return instance;
+    }
+
+    public static void clearUser(){
+        instance = new CurrentCreatingUser();
     }
 }

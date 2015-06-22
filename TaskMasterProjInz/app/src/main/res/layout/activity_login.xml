@@ -8,10 +8,30 @@
     tools:context="al.taskmasterprojinz.LoginActivity">
 
     <!-- Login progress -->
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@mipmap/logo"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/logo"
+            android:id="@+id/logo"/>
+        <TextView
+            android:id="@+id/app_name_logo"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:text="@string/app_name"
+            android:textColor="@color/my_text"
+            android:layout_toRightOf="@+id/logo"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textSize="28dp"
+            android:layout_marginBottom="25dp"/>
+
+
+        </RelativeLayout>
+
     <ProgressBar android:id="@+id/login_progress" style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_marginBottom="8dp" android:visibility="gone" />

@@ -19,12 +19,14 @@ public class EstablishDBConnection {
 
     public static boolean connectToDB(){
         try {
+            if (con != null) con.close();
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(url, user, pass);
             System.out.println("Database conection success");
 
 
         } catch (Exception e) {
+            System.out.println("Connection fail");
             e.printStackTrace();
             return false;
         }
@@ -32,7 +34,16 @@ public class EstablishDBConnection {
     }
 
     public static Connection getConnection(){
-        if (con != null) return con;
+        if (con != null ) {
+            try {
+                if (con.isClosed() ) {
+                    connectToDB();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return con;
+        }
         else{
             connectToDB();
         }

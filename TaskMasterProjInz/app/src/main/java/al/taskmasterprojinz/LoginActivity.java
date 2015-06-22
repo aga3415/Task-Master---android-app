@@ -29,6 +29,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import MySQLConnection.RefreshingGroups;
 import MySQLConnection.SignIn;
 import MySQLConnection.SignUp;
 import PreparingData.CurrentCreatingUser;
@@ -107,6 +108,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         });
 
         connectionErrorView = (TextView) findViewById(R.id.connection_error_view);
+
+        CurrentCreatingUser.clearUser();
     }
 
     private void populateAutoComplete() {
@@ -281,6 +284,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             emailCorrect = SignUp.emailCorrect;
             passwordCorrect = SignUp.passwordCorrect;
 
+            if (success){
+                RefreshingGroups refreshingGroups = new RefreshingGroups(getApplicationContext());
+                refreshingGroups.doInBackground();
+
+            }
+
             return success;
 
         }
@@ -292,8 +301,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
             if (success) {
                 finish();
+
                 Intent tabHostActivity = new Intent(getApplicationContext(), TabHostActivity.class);
                 startActivity(tabHostActivity);
+
             } else if (!connectionEstablish) {
                 connectionErrorView.setVisibility(View.VISIBLE);
                 System.out.println("Nie ma internetu");
@@ -328,9 +339,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
             boolean success =  SignIn.ifCanSignIn();
 
-            connectionEstablish = SignUp.connectionEstablish;
-            emailCorrect = SignUp.emailCorrect;
-            passwordCorrect = SignUp.passwordCorrect;
+            connectionEstablish = SignIn.connectionEstablish;
+            emailCorrect = SignIn.emailCorrect;
+            passwordCorrect = SignIn.passwordCorrect;
+
+            if (success){
+                RefreshingGroups refreshingGroups = new RefreshingGroups(getApplicationContext());
+                refreshingGroups.doInBackground();
+
+            }
 
             return success;
 
@@ -350,7 +367,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 System.out.println("Nie ma internetu");
             }else if (!emailCorrect) {
                 System.out.println("Email zly!");
-                mEmailView.setError(getString(R.string.error_taken_email));
+                mEmailView.setError(getString(R.string.error_wrong_email));
                 mEmailView.requestFocus();
             }else{
                 System.out.print("Zle haslo");
